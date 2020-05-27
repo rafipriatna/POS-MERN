@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt')
 const {
     Op
 } = require("sequelize");
@@ -6,6 +7,7 @@ const User = require('../Models/userModel')
 
 // Membuat user baru
 exports.createUser = (req, res, next) => {
+    hashedPassword = bcrypt.hashSync(req.body.password, 10)
     User
         .findOrCreate({
             where: {
@@ -19,7 +21,7 @@ exports.createUser = (req, res, next) => {
                 username: req.body.username,
                 nama: req.body.nama,
                 surel: req.body.surel,
-                password: req.body.password,
+                password: hashedPassword,
                 level: 0,
                 foto: 'test.jpg',
                 last_login: new Date()
@@ -64,7 +66,7 @@ exports.getAllUsers = (req, res, next) => {
             ]
         })
         .then(users => {
-            if (user === null)
+            if (users === null)
                 return res
                     .status(404)
                     .json({
@@ -88,6 +90,13 @@ exports.getAllUsers = (req, res, next) => {
             res
                 .status(200)
                 .json(response)
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .json({
+                    error: err
+                })
         })
 }
 
@@ -122,9 +131,63 @@ exports.getUserById = (req, res, next) => {
                 .status(200)
                 .json(response)
         })
+        .catch(err => {
+            res
+                .status(500)
+                .json({
+                    error: err
+                })
+        })
 }
 
 // Update user
 exports.updateUser = (req, res, next) => {
-    
+    if (req.body.password)
+        req.body.password = bcrypt.hashSync(req.body.password, 10)
+
+    User
+        .update(req.body, {
+            returning: true,
+            where: {
+                id: req.params.userId
+            }
+        })
+        .then(result => {
+            res
+                .status(200)
+                .json({
+                    message: "User berhasil diupdate"
+                })
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .json({
+                    error: err
+                })
+        })
+}
+
+// Delete user
+exports.deleteUser = (req, res, next) => {
+    User
+        .destroy({
+            where: {
+                id: req.params.userId
+            }
+        })
+        .then(result => {
+            res
+                .status(200)
+                .json({
+                    message: "User berhasil dihapus"
+                })
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .json({
+                    error: err
+                })
+        })
 }

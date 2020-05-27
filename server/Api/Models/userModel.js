@@ -1,5 +1,4 @@
 const { Sequelize, Op, Model, DataTypes } = require('sequelize');
-const bcrypt = require('bcrypt')
 const db = require('../../Database/db')
 
 module.exports = db.sequelize.define(
@@ -38,11 +37,6 @@ module.exports = db.sequelize.define(
         }
     },
     {
-        hooks: {
-            afterValidate: (user) => {
-                user.password = bcrypt.hashSync(user.password, 10)
-            }
-        },
         timestamps: false,
         freezeTableName: true,
     }
