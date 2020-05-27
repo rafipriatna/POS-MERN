@@ -1,6 +1,3 @@
-/*
- * Untuk Cek Auth
- */
 const jwt = require('jsonwebtoken')
 
 exports.adminAuth = (req, res, next) => {
@@ -8,13 +5,22 @@ exports.adminAuth = (req, res, next) => {
         const token = req
             .headers
             .authorization
-            .split(" ")[1]
+            .split(" ")[1] // Split Bearer header
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET_KEY)
-        req.userData = decoded
-        next();
+        if (decoded.level == 0) {
+            next()
+        } else {
+            return res
+                .status(401)
+                .json({
+                    message: 'Auth failed'
+                })
+        }
     } catch (error) {
         return res
             .status(401)
-            .json({message: 'Auth failed'})
+            .json({
+                message: 'Auth failed'
+            })
     }
 }

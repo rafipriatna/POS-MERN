@@ -7,7 +7,8 @@ const mongoose      = require('mongoose')
 require('dotenv').config() // Environment
 
 // Routes API
-const usersRoute = require('./Api/Routes/usersRoute')
+const usersRoutes = require('./Api/Routes/usersRoute')
+const authRoutes = require('./Api/Routes/authRoute')
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URL, {
@@ -44,7 +45,8 @@ app.use((req, res, next) => {
 })
 
 // Routes
-app.use('/users', usersRoute)
+app.use('/auth', authRoutes)
+app.use('/users', usersRoutes)
 
 // Error handling
 app.use((req, res, next) => {
