@@ -7,20 +7,20 @@ exports.adminAuth = (req, res, next) => {
             .authorization
             .split(" ")[1] // Split Bearer header
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET_KEY)
-        if (decoded.level == 0) {
+        if (decoded.level === 0) {
             next()
         } else {
             return res
                 .status(401)
                 .json({
-                    message: 'Auth failed'
+                    error: 'Auth failed'
                 })
         }
     } catch (error) {
         return res
             .status(401)
             .json({
-                message: 'Auth failed'
+                error: 'Auth failed'
             })
     }
 }

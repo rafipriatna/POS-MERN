@@ -11,7 +11,7 @@ const usersController = require('../Controllers/userController')
 router.post('/', checkAuth.adminAuth, usersController.createUser)
 router.get('/', checkAuth.adminAuth, usersController.getAllUsers)
 router.get('/:userId', checkAuth.adminAuth, usersController.getUserById)
-router.patch('/:userId', checkAuth.adminAuth, usersController.updateUser)
-router.delete('/:userId', checkAuth.adminAuth, usersController.deleteUser)
+// router.patch('/:userId', checkAuth.adminAuth, usersController.updateUser)
+// router.delete('/:userId', checkAuth.adminAuth, usersController.deleteUser)
 
 module.exports = router

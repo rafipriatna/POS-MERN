@@ -1,21 +1,14 @@
-const express       = require('express')
-const app           = express()
-const morgan        = require('morgan')
-const bodyParser    = require('body-parser')
-const mongoose      = require('mongoose')
+const express = require('express')
+const app = express()
+const morgan = require('morgan')
+const bodyParser = require('body-parser')
+const cors = require('cors')
 
 require('dotenv').config() // Environment
 
 // Routes API
 const usersRoutes = require('./Api/Routes/usersRoute')
 const authRoutes = require('./Api/Routes/authRoute')
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true
-})
 
 // Test Server
 // app.use((req, res, next) => {
@@ -24,7 +17,7 @@ mongoose.connect(process.env.MONGODB_URL, {
 
 // Middleware
 app.use(morgan('dev'))
-// app.use('/uploads', express.static('uploads'))
+app.use(cors())
 app.use(bodyParser.urlencoded({
     extended: false
 }))

@@ -4,40 +4,34 @@ const jwt = require('jsonwebtoken')
 const User = require('../Models/userModel')
 
 exports.masuk = async (req, res, next) => {
-    User
-        .find({
-            email: req.body.email
-        })
-        .exec()
-        .then(user => {
-            if (user.length < 1)
+    User.findOne({
+        where: {
+            username: req.body.username
+        }
+    }).then(user => {
+        if (user === null)
+            return res.status(401).json({
+                message: "Auth gagal"
+            })
+        bcrypt.compare(req.body.password, user.password, (err, result) => {
+            if (result) {
+                const token = jwt.sign({
+                    userId: user.id,
+                    level: user.level
+                }, process.env.TOKEN_SECRET_KEY, {
+                    expiresIn: "1h" // Expired dalam satu jam
+                })
                 return res
-                    .status(401)
-                    .json({
-                        pesan: 'User tidak ditemukan'
-                    })
-
-            bcrypt.compare(req.body.password, user[0].password, (err, result) => {
-                if (result) {
-                    const token = jwt.sign({
-                        userId: user[0]._id,
-                        level: user[0].level
-                    }, process.env.TOKEN_SECRET_KEY, {
-                        expiresIn: "1h" // Expired dalam satu jam
-                    })
-                    return res
                         .status(200)
                         .json({
-                            pesan: 'Auth sukses',
+                            message: 'Auth sukses',
                             token: token
                         })
-                } else {
-                    return res
-                        .status(401)
-                        .json({
-                            pesan: 'User tidak ditemukan'
-                        })
-                }
-            })
+            }else{
+                res.status(401).json({
+                    message: "Auth gagal"
+                })
+            }
         })
+    })
 }
