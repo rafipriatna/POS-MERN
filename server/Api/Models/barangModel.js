@@ -3,7 +3,7 @@ const db = require('../../Database/db')
 
 module.exports = db
     .sequelize
-    .define('tb_users', {
+    .define('tb_barang', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,

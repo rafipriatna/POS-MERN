@@ -9,6 +9,7 @@ require('dotenv').config() // Environment
 // Routes API
 const usersRoutes = require('./Api/Routes/usersRoute')
 const authRoutes = require('./Api/Routes/authRoute')
+const barangRoutes = require('./Api/Routes/barangRoute')
 
 // Test Server
 // app.use((req, res, next) => {
@@ -40,6 +41,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/auth', authRoutes)
 app.use('/users', usersRoutes)
+app.use('/barang', barangRoutes)
 
 // Error handling
 app.use((req, res, next) => {
