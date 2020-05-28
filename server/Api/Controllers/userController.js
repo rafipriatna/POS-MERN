@@ -70,7 +70,7 @@ exports.getAllUsers = (req, res, next) => {
                 return res
                     .status(404)
                     .json({
-                        error: "Data tidak ditemukan"
+                        error: "Belum ada data user"
                     })
             const response = {
                 cout: users.length,
@@ -105,7 +105,7 @@ exports.getUserById = (req, res, next) => {
     User
         .findOne({
             where: {
-                id: req.params.userId
+                id: req.params.id
             }
         })
         .then(user => {
@@ -113,7 +113,7 @@ exports.getUserById = (req, res, next) => {
                 return res
                     .status(404)
                     .json({
-                        error: "Data tidak ditemukan"
+                        error: "User tidak ditemukan"
                     })
             const response = {
                 keterangan: "Level 0 untuk role Admin, level 1 untuk role Kasir",
@@ -149,7 +149,7 @@ exports.updateUser = (req, res, next) => {
         .update(req.body, {
             returning: true,
             where: {
-                id: req.params.userId
+                id: req.params.id
             }
         })
         .then(result => {
@@ -173,7 +173,7 @@ exports.deleteUser = (req, res, next) => {
     User
         .destroy({
             where: {
-                id: req.params.userId
+                id: req.params.id
             }
         })
         .then(result => {
