@@ -13,14 +13,14 @@ exports.adminAuth = (req, res, next) => {
             return res
                 .status(401)
                 .json({
-                    error: 'Auth failed'
+                    error: 'Auth gagal'
                 })
         }
     } catch (error) {
         return res
             .status(401)
             .json({
-                error: 'Auth failed'
+                error: 'Auth gagal'
             })
     }
 }
