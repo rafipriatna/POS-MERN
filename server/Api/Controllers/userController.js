@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const {
     Op
-} = require("sequelize");
+} = require("sequelize")
 
 const User = require('../Models/userModel')
 
