@@ -110,7 +110,9 @@ exports.updateOneItemPenjualan = (req, res, next) => {
         .then(result => {
             res
                 .status(200)
-                .json(result)
+                .json({
+                    message: "Penjualan berhasil diupdate"
+                })
         })
         .catch(err => {
             res
