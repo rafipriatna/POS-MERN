@@ -103,7 +103,6 @@ exports.getPenjualanByKodePenjualan = (req, res, next) => {
 exports.updateOneItemPenjualan = (req, res, next) => {
     Penjualan
         .update(req.body, {
-            returning: true,
             where: {
                 id: req.params.id
             }

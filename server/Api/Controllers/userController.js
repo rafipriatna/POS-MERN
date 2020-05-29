@@ -147,7 +147,6 @@ exports.updateUser = (req, res, next) => {
 
     User
         .update(req.body, {
-            returning: true,
             where: {
                 id: req.params.id
             }
