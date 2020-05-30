@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 // Components
 import PageWrapper from './Components/PageWrapper'
-import Home from './Components/Pages/Home'
+import HomePage from './Components/Pages/HomePage'
 import MasukPage from './Components/Pages/MasukPage'
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
       <Switch>
         <Route exact path="/masuk" component={MasukPage}/>
         <PageWrapper>
-          <Route exact path="/" component={Home}/>
+          <Route exact path="/" component={HomePage}/>
         </PageWrapper>
       </Switch>
     </Router>
