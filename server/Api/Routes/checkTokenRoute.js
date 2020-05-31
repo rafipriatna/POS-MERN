@@ -10,4 +10,4 @@ const checkTokenController = require('../Controllers/checkTokenController')
 // Routes
 router.get('/:id', checkAuth.userAuth, checkTokenController)
 
-module.exports = router;
+module.exports = router
