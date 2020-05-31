@@ -9,7 +9,8 @@ export default class Field extends Component {
                     name={this.props.name}
                     className={"form-control " + this.props.more_class}
                     required="required"
-                    placeholder={this.props.placeholder}/>
+                    placeholder={this.props.placeholder}
+                    onChange={this.props.onChange}/>
             </div>
         )
     }
