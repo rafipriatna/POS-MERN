@@ -25,6 +25,7 @@ exports.masuk = async (req, res, next) => {
                         .status(200)
                         .json({
                             message: 'Auth sukses',
+                            id: user.id,
                             token: token,
                             expired: "1 Jam"
                         })
