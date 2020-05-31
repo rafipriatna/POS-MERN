@@ -16,7 +16,7 @@ exports.masuk = async (req, res, next) => {
         bcrypt.compare(req.body.password, user.password, (err, result) => {
             if (result) {
                 const token = jwt.sign({
-                    userId: user.id,
+                    id: user.id,
                     level: user.level
                 }, process.env.TOKEN_SECRET_KEY, {
                     expiresIn: "1h" // Expired dalam satu jam
