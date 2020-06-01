@@ -9,29 +9,32 @@ export default class Navigation extends Component {
                     <div className="sidebar-brand-icon rotate-n-15">
                         <i className="fas fa-laugh-wink"></i>
                     </div>
-                    <div className="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                    <div className="sidebar-brand-text mx-3">POS <sup>MERN</sup></div>
                 </Link>
                 <hr className="sidebar-divider my-0"></hr>
                 <li className="nav-item active">
-                    <a className="nav-link" href="index.html">
+                    <Link to="/" className="nav-link">
                     <i className="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Dashboard</span></Link>
                 </li>
-                <hr className="sidebar-divider my-0"></hr>
                 <div className="sidebar-heading">
-                    Interface
+                    Administrator
                 </div>
                 <li className="nav-item">
-                    <Link className="nav-link collapsed" to="/#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i className="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
+                    <Link className="nav-link" to="/#" aria-expanded="true" aria-controls="collapseTwo">
+                        <i className="fas fa-fw fa-users"></i>
+                        <span>Pengguna</span>
                     </Link>
-                    <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div className="bg-white py-2 collapse-inner rounded">
-                        <h6 className="collapse-header">Custom Components:</h6>
-                        <a className="collapse-item" href="buttons.html">Buttons</a>
-                        <a className="collapse-item" href="cards.html">Cards</a>
-                    </div>
+                    <Link className="nav-link collapsed" to="/#" data-toggle="collapse" data-target="#barang" aria-expanded="true" aria-controls="collapseTwo">
+                        <i className="fas fa-fw fa-box"></i>
+                        <span>Barang</span>
+                    </Link>
+                    <div id="barang" className="collapse" data-parent="#accordionSidebar">
+                        <div className="bg-white py-2 collapse-inner rounded">
+                            <h6 className="collapse-header">Pengaturan barang</h6>
+                            <Link to="/barang" className="collapse-item">Data Barang</Link>
+                            <Link to="/barang/kategori" className="collapse-item">Kategori Barang</Link>
+                        </div>
                     </div>
                 </li>
             </ul>
