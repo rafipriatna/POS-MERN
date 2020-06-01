@@ -59,11 +59,21 @@ export default class Pengguna extends Component {
 
     async componentDidMount(){
         const dataPengguna = await getAllPengguna()
-        this.setState({
-            tableData: dataPengguna.users
-        })
+        if (dataPengguna.count > 0){
+            this.setState({
+                tableData: dataPengguna.users
+            })
+        }
     }
     render() {
+        if (this.state.tableData.length === 0){
+            return(
+                <div>
+                    401
+                </div>
+            )
+        }
+
         return (
             <div className="container-fluid">
                 <h1 className="h3 mb-2 text-gray-800">Tables</h1>
