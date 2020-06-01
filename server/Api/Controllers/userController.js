@@ -73,7 +73,7 @@ exports.getAllUsers = (req, res, next) => {
                         error: "Belum ada data user"
                     })
             const response = {
-                cout: users.length,
+                count: users.length,
                 keterangan: "Level 0 untuk role Admin, level 1 untuk role Kasir",
                 users: users.map(user => {
                     return {

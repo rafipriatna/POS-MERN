@@ -36,7 +36,7 @@ exports.getAllPenjualan = (req, res, next) => {
                         error: "Belum ada data penjualan"
                     })
             const response = {
-                cout: semuaPenjualan.length,
+                count: semuaPenjualan.length,
                 penjualan: semuaPenjualan.map(penjualan => {
                     return {
                         id: penjualan.id,

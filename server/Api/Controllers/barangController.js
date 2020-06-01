@@ -56,7 +56,7 @@ exports.getAllBarang = (req, res, next) => {
                         error: "Belum ada data barang"
                     })
             const response = {
-                cout: semuaBarang.length,
+                count: semuaBarang.length,
                 keterangan: 'Nama kategori dalam bentuk number, dapat dilihat di GET /barang/kategori',
                 barang: semuaBarang.map(barang => {
                     return {
@@ -104,7 +104,7 @@ exports.getBarangById = (req, res, next) => {
                         error: "Barang tidak ditemukan"
                     })
             const response = {
-                cout: barang.length,
+                count: barang.length,
                 barang: {
                     id: barang.id,
                     barcode: barang.barcode,
@@ -220,7 +220,7 @@ exports.getAllKategoriBarang = (req, res, next) => {
                         error: "Belum ada data kategori barang"
                     })
             const response = {
-                cout: semuaKategori.length,
+                count: semuaKategori.length,
                 kategori: semuaKategori.map(kategori => {
                     return {
                         id: kategori.id,
@@ -258,7 +258,7 @@ exports.getKategoriBarangById = (req, res, next) => {
                         error: "Kategori barang tidak ditemukan"
                     })
             const response = {
-                cout: kategori.length,
+                count: kategori.length,
                 kategori: {
                     id: kategori.id,
                     nama: kategori.nama,
