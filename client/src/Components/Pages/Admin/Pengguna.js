@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Button} from "reactstrap"
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfo, faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Table from '../../Common/Table'
@@ -60,7 +60,7 @@ export default class Pengguna extends Component {
 
     async componentDidMount(){
         const dataPengguna = await getAllPengguna()
-        if (dataPengguna.cout > 0){
+        if (dataPengguna.count > 0){
             this.setState({
                 tableData: dataPengguna.users
             })
@@ -71,26 +71,31 @@ export default class Pengguna extends Component {
         }
     }
 
-    isiPage = () => {
+    render() {
+        if (this.state.redirect === true)
+            return <Redirect to="/" />
         return (
             <div className="container-fluid">
-                <h1 className="h3 mb-2 text-gray-800">Tables</h1>
-                <div className="card shadow mb-4">
-                    <div className="card-header py-3">
-                        <h6 className="m-0 font-weight-bold text-primary">DataTables Example</h6>
-                    </div>
-                    <div className="card-body">
-                        <div className="table-responsive">
-                            <Table data={this.state.tableData} columns={this.state.tableColumn}/>
+                {this.state.tableData.length > 0 ?
+                    <div>
+                        <h1 className="h3 mb-2 text-gray-800">Tables</h1>
+                        <div className="card shadow mb-4">
+                            <div className="card-header py-3">
+                                <h6 className="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            </div>
+                            <div className="card-body">
+                                <div className="table-responsive">
+                                    <Table data={this.state.tableData} columns={this.state.tableColumn}/>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                :
+                    <div>
+                        <p>Loading...</p>
+                    </div>
+                }
             </div>
-        )
-    }
-    render() {
-        return (
-            <this.isiPage/>
         )
     }
 }
