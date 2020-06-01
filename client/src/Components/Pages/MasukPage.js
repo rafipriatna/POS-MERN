@@ -8,7 +8,6 @@ export default class Masuk extends Component {
     constructor(){
         super()
         this.state = {
-            login: false,
             username: '',
             password: '',
             error: ''
