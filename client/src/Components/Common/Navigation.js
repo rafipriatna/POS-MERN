@@ -11,17 +11,19 @@ export default class Navigation extends Component {
                     </div>
                     <div className="sidebar-brand-text mx-3">POS <sup>MERN</sup></div>
                 </Link>
-                <hr className="sidebar-divider my-0"></hr>
+                <hr className="sidebar-divider my-0" />
                 <li className="nav-item active">
                     <Link to="/" className="nav-link">
                     <i className="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></Link>
                 </li>
+                <hr className="sidebar-divider my-0" />
+                <hr className="sidebar-divider" />
                 <div className="sidebar-heading">
                     Administrator
                 </div>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/#" aria-expanded="true" aria-controls="collapseTwo">
+                    <Link className="nav-link" to="/pengguna" aria-expanded="true" aria-controls="collapseTwo">
                         <i className="fas fa-fw fa-users"></i>
                         <span>Pengguna</span>
                     </Link>
