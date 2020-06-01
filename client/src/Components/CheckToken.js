@@ -1,14 +1,24 @@
 import React, { Component } from 'react'
+import {Redirect} from 'react-router-dom'
 import {checkToken} from '../Components/Functions/AuthFunction'
 
 export default class CheckAuth extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            login: ''
+        }
+
+    }
 
     async componentDidMount(){
-        const checToken = await checkToken()
-        if(checToken === false) window.location = "/masuk"
+        const check = await checkToken()
+        this.setState({login: check})
     }
 
     render() {
+        if(this.state.login === false) return <Redirect to="/masuk" />
+
         return (
             <div>
                 {this.props.children}
