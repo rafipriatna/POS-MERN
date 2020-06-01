@@ -53,27 +53,25 @@ export default class Pengguna extends Component {
                     }
                 }
             ],
-            tableData: []
+            tableData: [],
+            redirect: false
         }
     }
 
     async componentDidMount(){
         const dataPengguna = await getAllPengguna()
-        if (dataPengguna.count > 0){
+        if (dataPengguna.cout > 0){
             this.setState({
                 tableData: dataPengguna.users
             })
+        }else{
+            this.setState({
+                redirect: true
+            })
         }
     }
-    render() {
-        if (this.state.tableData.length === 0){
-            return(
-                <div>
-                    401
-                </div>
-            )
-        }
 
+    isiPage = () => {
         return (
             <div className="container-fluid">
                 <h1 className="h3 mb-2 text-gray-800">Tables</h1>
@@ -88,6 +86,11 @@ export default class Pengguna extends Component {
                     </div>
                 </div>
             </div>
+        )
+    }
+    render() {
+        return (
+            <this.isiPage/>
         )
     }
 }
