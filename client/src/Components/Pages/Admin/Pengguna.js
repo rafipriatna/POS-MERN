@@ -15,15 +15,18 @@ export default class Pengguna extends Component {
                 {
                     dataField: 'id',
                     text: 'ID',
+                    sort: true,
                     headerStyle: () => {
                         return {width: "5%"}
                     }
                 }, {
                     dataField: 'nama',
-                    text: 'Nama'
+                    text: 'Nama',
+                    sort: true
                 }, {
                     dataField: 'surel',
-                    text: 'Surel'
+                    text: 'Surel',
+                    sort: true
                 }, {
                     dataField: "link",
                     text: "Action",
@@ -69,6 +72,12 @@ export default class Pengguna extends Component {
                 redirect: true
             })
         }
+    }
+
+    componentWillUnmount() {
+        this.setState = (state,callback)=>{
+            return;
+        };
     }
 
     render() {
