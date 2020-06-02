@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 
 // Components
 import CheckToken from './Components/CheckToken'
@@ -20,6 +20,7 @@ function App() {
             <Route exact path="/" component={HomePage}/>
             <Route exact path="/pengguna" component={Pengguna}/>
             <Route exact path="/barang" component={DataBarang}/>
+            <Redirect to="/"/>
           </PageWrapper>
         </CheckToken>
       </Switch>
