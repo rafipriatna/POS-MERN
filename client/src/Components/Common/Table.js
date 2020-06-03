@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import BootstrapTable from 'react-bootstrap-table-next'
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -10,32 +10,32 @@ const defaultSorted = [{
     order: 'asc'
   }];
 
-const Table = (props) => {
-    return (
-        <>
-        <ToolkitProvider
-            bootstrap4
-            keyField='id'
-            data={ props.data }
-            columns={ props.columns }
-            defaultSorted={ defaultSorted }
-            search
-            >
-            {
-                props => (
-                <div>
-                    <div className="float-right">
-                        <SearchBar { ...props.searchProps } placeholder="Cari data..."/>
+export default class Table extends Component {
+    render() {
+        return (
+            <>
+            <ToolkitProvider
+                bootstrap4
+                keyField='id'
+                data={ this.props.data }
+                columns={ this.props.columns }
+                defaultSorted={ defaultSorted }
+                search
+                >
+                {
+                    props => (
+                    <div>
+                        <div className="float-right">
+                            <SearchBar { ...props.searchProps } placeholder="Cari data..."/>
+                        </div>
+                        <BootstrapTable
+                        { ...props.baseProps } pagination={ paginationFactory() }
+                        />
                     </div>
-                    <BootstrapTable
-                    { ...props.baseProps } pagination={ paginationFactory() }
-                    />
-                </div>
-                )
-            }
-        </ToolkitProvider>
-        </>
-    )
+                    )
+                }
+            </ToolkitProvider>
+            </>
+        )
+    }
 }
-
-export default Table
