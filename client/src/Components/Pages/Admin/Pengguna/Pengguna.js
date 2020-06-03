@@ -3,9 +3,10 @@ import {Button} from "reactstrap"
 import {Link, Redirect} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfo, faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
-import Table from '../../Common/Table'
+import Table from '../../../Common/Table'
 
-import {getAllPengguna} from '../../Functions/AdminFunction'
+// Function
+import {getAllPengguna} from '../../../Functions/AdminFunction'
 
 export default class Pengguna extends Component {
     constructor() {

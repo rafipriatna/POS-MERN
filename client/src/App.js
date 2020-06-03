@@ -6,7 +6,7 @@ import CheckToken from './Components/CheckToken'
 import PageWrapper from './Components/PageWrapper'
 import MasukPage from './Components/Pages/MasukPage'
 import HomePage from './Components/Pages/HomePage'
-import Pengguna from './Components/Pages/Admin/Pengguna'
+import Pengguna from './Components/Pages/Admin/Pengguna/Pengguna'
 import DataBarang from './Components/Pages/Admin/DataBarang'
 
 
