@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {masuk, checkToken} from '../Functions/AuthFunction'
 
 // Components
-import Field from '../Common/Field'
+import Field from '../Components/Common/Field'
 
 export default class Masuk extends Component {
     constructor(){

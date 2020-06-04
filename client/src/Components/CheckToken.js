@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Redirect} from 'react-router-dom'
-import {checkToken} from '../Components/Functions/AuthFunction'
+import {checkToken} from '../Functions/AuthFunction'
 
 export default class CheckAuth extends Component {
     constructor(props){

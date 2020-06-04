@@ -4,7 +4,7 @@ export default class CreatePengguna extends Component {
     render() {
         return (
             <div>
-                Create User
+                Tambah Pengguna
             </div>
         )
     }

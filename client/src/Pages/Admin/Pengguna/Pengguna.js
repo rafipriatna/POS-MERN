@@ -3,7 +3,7 @@ import {Button} from "reactstrap"
 import {Link, Redirect} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfo, faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
-import Table from '../../../Common/Table'
+import Table from '../../../Components/Common/Table'
 
 // Function
 import {getAllPengguna} from '../../../Functions/AdminFunction'
@@ -88,12 +88,14 @@ export default class Pengguna extends Component {
             <div className="container-fluid">
                 {this.state.tableData.length > 0 ?
                     <div>
-                        <h1 className="h3 mb-2 text-gray-800">Tables</h1>
+                        <h1 className="h3 mb-2 text-gray-800">Pengguna</h1>
                         <div className="card shadow mb-4">
                             <div className="card-header py-3">
-                                <h6 className="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                                <h6 className="m-0 font-weight-bold text-primary">Data semua pengguna</h6>
                             </div>
                             <div className="card-body">
+                                <Link to="/pengguna/tambah" className="btn btn-primary">Tambah</Link>
+                                    
                                 <div className="table-responsive">
                                     <Table data={this.state.tableData} columns={this.state.tableColumn}/>
                                 </div>

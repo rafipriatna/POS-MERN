@@ -4,11 +4,17 @@ import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom
 // Components
 import CheckToken from './Components/CheckToken'
 import PageWrapper from './Components/PageWrapper'
-import MasukPage from './Components/Pages/MasukPage'
-import HomePage from './Components/Pages/HomePage'
-import Pengguna from './Components/Pages/Admin/Pengguna/Pengguna'
-import DataBarang from './Components/Pages/Admin/DataBarang'
 
+// Pages
+import MasukPage from './Pages/MasukPage'
+import HomePage from './Pages/HomePage'
+
+// Admin Pengguna
+import Pengguna from './Pages/Admin/Pengguna/Pengguna'
+import TambahPengguna from './Pages/Admin/Pengguna/TambahPengguna'
+
+// Admin Barang
+import DataBarang from './Pages/Admin/DataBarang'
 
 function App() {
   return(
@@ -19,6 +25,9 @@ function App() {
           <PageWrapper>
             <Route exact path="/" component={HomePage}/>
             <Route exact path="/pengguna" component={Pengguna}/>
+            <Route exact path="/pengguna/tambah" component={TambahPengguna}/>
+
+
             <Route exact path="/barang" component={DataBarang}/>
             <Redirect to="/"/>
           </PageWrapper>
