@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {Button} from "reactstrap"
+import {Button, Badge} from "reactstrap"
 import {Link, Redirect} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faInfo, faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Table from '../../../Components/Common/Table'
 
 // Function
@@ -20,6 +20,10 @@ export default class Pengguna extends Component {
                     headerStyle: () => {
                         return {width: "5%"}
                     }
+                },  {
+                  dataField: 'username',
+                  text: 'Username',
+                  sort: true
                 }, {
                     dataField: 'nama',
                     text: 'Nama',
@@ -29,27 +33,34 @@ export default class Pengguna extends Component {
                     text: 'Surel',
                     sort: true
                 }, {
+                  dataField: 'level',
+                  text: 'Level',
+                  formatter: (rowContent, row) => {
+                    return(
+                      <div>
+                        {row.level === 0 ?
+                          <Badge color="primary">Admin</Badge>
+                        :
+                          <Badge color="warning">Kasir</Badge>
+                        }
+                      </div>
+                    )
+                  }
+                }, {
                     dataField: "link",
                     text: "Action",
                     formatter: (rowContent, row) => {
                         return (
                             <div>
-                                <Link to={"detail/" + row.id}>
-                                    <Button color="dark" className="mr-2">
-                                        <FontAwesomeIcon icon={faInfo}/>
-                                        Detail
-                                    </Button>
-                                </Link>
-
-                                <Link to={"edit/" + row.id}>
-                                    <Button color="dark" className="mr-2">
-                                        <FontAwesomeIcon icon={faEdit}/>
+                                <Link to={"/pengguna/edit/" + row.id}>
+                                    <Button color="info" className="mr-2">
+                                        <FontAwesomeIcon icon={faEdit} fixedWidth/>
                                         Edit
                                     </Button>
                                 </Link>
 
-                                <Button color="dark" className="mr-2">
-                                    <FontAwesomeIcon icon={faTrash}/>
+                                <Button color="danger" className="mr-2">
+                                    <FontAwesomeIcon icon={faTrash} fixedWidth/>
                                     Delete
                                 </Button>
                             </div>
