@@ -35,7 +35,14 @@ export default class CreatePengguna extends Component {
                 console.log(values);
               }}
             >
-              {({ handleSubmit, handleChange, handleBlur, values, touched, errors }) => (
+              {({
+                setFieldTouched,
+                handleSubmit,
+                handleChange,
+                handleBlur,
+                values,
+                errors,
+              }) => (
                 <form className="user" onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-lg-6">
@@ -45,12 +52,14 @@ export default class CreatePengguna extends Component {
                         name="username"
                         placeholder="Masukkan username"
                         value={values.username}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          setFieldTouched('type');
+                          handleChange(e);
+                        }}
                         onBlur={handleBlur}
-                        touched={touched.username}
                         errors={errors.username}
                       />
-                      
+
                       <label>Nama</label>
                       <Field
                         type="text"
@@ -59,7 +68,7 @@ export default class CreatePengguna extends Component {
                         value={values.nama}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        touched={touched.nama}
+                        touched={setFieldTouched}
                         errors={errors.nama}
                       />
                     </div>
