@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import { Formik } from "formik";
+import { Formik, Field as FormikField } from "formik";
 import * as Yup from "yup";
+
+// Functions
+import { tambahPengguna } from "../../../Functions/AdminFunction";
 
 // Components
 import Field from "../../../Components/Common/Field";
@@ -27,23 +30,48 @@ export default class CreatePengguna extends Component {
           <div className="card-header py-3">
             <h6 className="m-0 font-weight-bold text-primary">Data pengguna</h6>
           </div>
-          <div className="card-body">
-            <Formik
-              initialValues={{ username: "", nama: "" }}
-              validationSchema={validationSchema}
-              onSubmit={(values) => {
-                console.log(values);
-              }}
-            >
-              {({
-                setFieldTouched,
-                handleSubmit,
-                handleChange,
-                handleBlur,
-                values,
-                errors,
-              }) => (
-                <form className="user" onSubmit={handleSubmit}>
+          <Formik
+            initialValues={{
+              username: "",
+              nama: "",
+              surel: "",
+              password: "",
+              level: 0,
+              foto: "",
+            }}
+            validationSchema={validationSchema}
+            onSubmit={(values) => {
+              let formData = new FormData();
+              formData.set("username", values.username);
+              formData.set("nama", values.nama);
+              formData.set("surel", values.surel);
+              formData.set("password  ", values.password  );
+              formData.set("level", values.level);
+              formData.append("foto", values.foto);
+              tambahPengguna(formData)
+                .then((res) => {
+                  if (res === true) {
+                    console.log("Berhasil! Res: " + res);
+                  } else {
+                    console.log("Gagal! Res: " + res);
+                  }
+                })
+                .catch((err) => {
+                  console.log("Error " + err);
+                });
+            }}
+          >
+            {({
+              touched,
+              setFieldValue,
+              handleSubmit,
+              handleChange,
+              handleBlur,
+              values,
+              errors,
+            }) => (
+              <form className="user" onSubmit={handleSubmit}>
+                <div className="card-body">
                   <div className="row">
                     <div className="col-lg-6">
                       <label>Username</label>
@@ -52,11 +80,9 @@ export default class CreatePengguna extends Component {
                         name="username"
                         placeholder="Masukkan username"
                         value={values.username}
-                        onChange={(e) => {
-                          setFieldTouched('type');
-                          handleChange(e);
-                        }}
+                        onChange={handleChange}
                         onBlur={handleBlur}
+                        touched={touched.username}
                         errors={errors.username}
                       />
 
@@ -68,20 +94,68 @@ export default class CreatePengguna extends Component {
                         value={values.nama}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        touched={setFieldTouched}
+                        touched={touched.nama}
                         errors={errors.nama}
+                      />
+
+                      <label>Surel</label>
+                      <Field
+                        type="email"
+                        name="surel"
+                        placeholder="Masukkan surel"
+                        value={values.surel}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        touched={touched.surel}
+                        errors={errors.surel}
+                      />
+                    </div>
+                    <div className="col-lg-6">
+                      <label>Password</label>
+                      <Field
+                        type="password"
+                        name="password"
+                        placeholder="Masukkan password"
+                        value={values.password}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        touched={touched.password}
+                        errors={errors.password}
+                      />
+
+                      <label>Level</label>
+                      <FormikField
+                        as="select"
+                        name="level"
+                        className="form-control"
+                      >
+                        <option value="0">Admin</option>
+                        <option value="1">Kasir</option>
+                      </FormikField>
+
+                      <br />
+
+                      <label>Foto</label>
+                      <input
+                        id="foto"
+                        name="foto"
+                        className="form-group form-control-file"
+                        type="file"
+                        onChange={(event) => {
+                          setFieldValue("foto", event.currentTarget.files[0]);
+                        }}
                       />
                     </div>
                   </div>
-                </form>
-              )}
-            </Formik>
-          </div>
-          <div className="card-footer text-right">
-            <button type="submit" className="btn btn-primary">
-              Simpan
-            </button>
-          </div>
+                </div>
+                <div className="card-footer text-right">
+                  <button type="submit" className="btn btn-primary">
+                    Simpan
+                  </button>
+                </div>
+              </form>
+            )}
+          </Formik>
         </div>
       </div>
     );

@@ -13,7 +13,7 @@ export default class Field extends Component {
           onBlur={this.props.onBlur}
           onChange={this.props.onChange}
         />
-        {(this.props.errors) && 
+        {(this.props.errors && this.props.touched) && 
             <small className="form-text text-danger">{this.props.errors}</small>
         }
       </div>
