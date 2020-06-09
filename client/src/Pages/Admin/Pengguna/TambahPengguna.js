@@ -45,7 +45,7 @@ export default class CreatePengguna extends Component {
               formData.set("username", values.username);
               formData.set("nama", values.nama);
               formData.set("surel", values.surel);
-              formData.set("password  ", values.password  );
+              formData.set("password", values.password);
               formData.set("level", values.level);
               formData.append("foto", values.foto);
               tambahPengguna(formData)
