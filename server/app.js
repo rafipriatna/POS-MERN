@@ -20,6 +20,7 @@ const checkTokenRoute = require('./Api/Routes/checkTokenRoute')
 
 // Middleware
 app.use(morgan('dev'))
+app.use('/images/profile/', express.static('Uploads/Images/Profiles/'));
 app.use(cors())
 app.use(bodyParser.urlencoded({
     extended: false

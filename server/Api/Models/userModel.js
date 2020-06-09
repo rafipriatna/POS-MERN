@@ -32,7 +32,7 @@ module.exports = db.sequelize.define(
         foto: {
             type: DataTypes.STRING
         },
-        last_login: {
+        createdAt: {
             type: DataTypes.TIME
         }
     },
