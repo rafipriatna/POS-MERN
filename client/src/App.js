@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom
 
 // Components
 import CheckToken from './Components/CheckToken'
-import PageWrapper from './Components/PageWrapper'
+import PageWrapper from './Components/Layouts/PageWrapper'
 
 // Pages
 import MasukPage from './Pages/MasukPage'

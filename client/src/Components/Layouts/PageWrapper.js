@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import Header from './Common/Header'
+import Header from './Header'
 
 export default class PageWrapper extends Component {
     render() {
