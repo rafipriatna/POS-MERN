@@ -17,7 +17,7 @@ export default class Pengguna extends Component {
           dataField: "id",
           text: "ID",
           sort: true,
-          headerAlign: 'center',
+          headerAlign: "center",
           headerStyle: () => {
             return { width: "5%" };
           },
@@ -27,7 +27,13 @@ export default class Pengguna extends Component {
           text: "Foto",
           formatter: (rowContent, row) => {
             return (
-              <img className="rounded mx-auto d-block" src={`http://localhost:5000/images/profile/${row.foto}`} alt={row.foto} width="100" height="100"/>
+              <img
+                className="rounded mx-auto d-block"
+                src={`http://localhost:5000/images/profile/${row.foto}`}
+                alt={row.foto}
+                width="100"
+                height="100"
+              />
             );
           },
           headerStyle: () => {
@@ -38,16 +44,25 @@ export default class Pengguna extends Component {
           dataField: "username",
           text: "Username",
           sort: true,
+          headerStyle: () => {
+            return { width: "15%" };
+          },
         },
         {
           dataField: "nama",
           text: "Nama",
           sort: true,
+          headerStyle: () => {
+            return { width: "20%" };
+          },
         },
         {
           dataField: "surel",
           text: "Surel",
           sort: true,
+          headerStyle: () => {
+            return { width: "20%" };
+          },
         },
         {
           dataField: "level",
@@ -63,13 +78,16 @@ export default class Pengguna extends Component {
               </div>
             );
           },
+          headerStyle: () => {
+            return { width: "16%" };
+          },
         },
         {
           dataField: "link",
           text: "Action",
           formatter: (rowContent, row) => {
             return (
-              <div>
+              <div className="text-right">
                 <Link to={"/pengguna/edit/" + row.id}>
                   <Button color="info" className="mr-2">
                     <FontAwesomeIcon icon={faEdit} fixedWidth />
@@ -127,8 +145,7 @@ export default class Pengguna extends Component {
                 <Link to="/pengguna/tambah" className="btn btn-primary">
                   Tambah
                 </Link>
-
-                <div className="table-responsive">
+                <div className="container-fluid">
                   <Table
                     data={this.state.tableData}
                     columns={this.state.tableColumn}
