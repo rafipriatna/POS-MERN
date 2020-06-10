@@ -6,6 +6,9 @@ import * as Yup from "yup";
 import Field from "../../../Components/Common/Field";
 import { getPenggunaById } from "../../../Functions/AdminFunction";
 
+// Function
+import { editPengguna } from "../../../Functions/AdminFunction";
+
 const validationSchema = Yup.object().shape({
   username: Yup.string()
     .min(6, "Username minimal 6 karakter bre")
@@ -13,18 +16,17 @@ const validationSchema = Yup.object().shape({
   nama: Yup.string()
     .min(3, "Namanya minimal 3 karakter bre")
     .required("Harus ada nama"),
-  password: Yup.string()
-    .min(8, "Password harus 8 karakter bjir")
-    .required("Password harus diisi"),
   surel: Yup.string().email("Emailnya ga valid ni").required(),
 });
 
 export default class EditPengguna extends Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
-      dataPengguna: []
-    }
+      image_preview: "",
+      image_file: "",
+      dataPengguna: [],
+    };
   }
   async componentDidMount() {
     const id = this.props.match.params.id;
@@ -39,7 +41,17 @@ export default class EditPengguna extends Component {
       return;
     };
   }
-  
+
+  handleImagePreview = (e) => {
+    let image_as_base64 = URL.createObjectURL(e.target.files[0]);
+    let image_as_files = e.target.files[0];
+
+    this.setState({
+      image_preview: image_as_base64,
+      image_file: image_as_files,
+    });
+  };
+
   render() {
     return (
       <div className="container-fluid">
@@ -53,28 +65,29 @@ export default class EditPengguna extends Component {
               username: this.state.dataPengguna.username,
               nama: this.state.dataPengguna.nama,
               surel: this.state.dataPengguna.surel,
-              level: (this.state.dataPengguna.level === 0 ? 0 : 1),
-              foto: "",
+              level: this.state.dataPengguna.level === 0 ? 0 : 1,
+              foto: this.state.dataPengguna.foto,
             }}
             validationSchema={validationSchema}
             onSubmit={(values) => {
+              const id = this.props.match.params.id;
               let formData = new FormData();
               formData.set("username", values.username);
               formData.set("nama", values.nama);
               formData.set("surel", values.surel);
               formData.set("level", values.level);
               formData.append("foto", values.foto);
-              // editPengguna(formData)
-              //   .then((res) => {
-              //     if (res === true) {
-              //       console.log("Berhasil! Res: " + res);
-              //     } else {
-              //       console.log("Gagal! Res: " + res);
-              //     }
-              //   })
-              //   .catch((err) => {
-              //     console.log("Error " + err);
-              //   });
+              editPengguna(formData, id)
+                .then((res) => {
+                  if (res === true) {
+                    console.log("Berhasil! Res: " + res);
+                  } else {
+                    console.log(res);
+                  }
+                })
+                .catch((err) => {
+                  console.log("Error " + err);
+                });
             }}
             enableReinitialize
           >
@@ -96,7 +109,7 @@ export default class EditPengguna extends Component {
                         type="text"
                         name="username"
                         placeholder="Masukkan username"
-                        value={values.username || ''}
+                        value={values.username || ""}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         touched={touched.username}
@@ -108,7 +121,7 @@ export default class EditPengguna extends Component {
                         type="text"
                         name="nama"
                         placeholder="Masukkan nama"
-                        value={values.nama || ''}
+                        value={values.nama || ""}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         touched={touched.nama}
@@ -120,7 +133,7 @@ export default class EditPengguna extends Component {
                         type="email"
                         name="surel"
                         placeholder="Masukkan surel"
-                        value={values.surel || ''}
+                        value={values.surel || ""}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         touched={touched.surel}
@@ -141,15 +154,31 @@ export default class EditPengguna extends Component {
                       <br />
 
                       <label>Foto</label>
-                      <input
-                        id="foto"
-                        name="foto"
-                        className="form-group form-control-file"
-                        type="file"
-                        onChange={(event) => {
-                          setFieldValue("foto", event.currentTarget.files[0]);
-                        }}
-                      />
+                      <div className="form-group">
+                        <img
+                          src={
+                            this.state.image_preview
+                              ? this.state.image_preview
+                              : `http://localhost:5000/images/profile/${
+                                  values.foto || ""
+                                }`
+                          }
+                          alt={values.foto || this.state.image_preview}
+                          className="rounded d-block mb-2"
+                          width="100"
+                          height="100"
+                        />
+                        <input
+                          id="foto"
+                          name="foto"
+                          className="form-group form-control-file"
+                          type="file"
+                          onChange={(event) => {
+                            this.handleImagePreview(event);
+                            setFieldValue("foto", event.currentTarget.files[0]);
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
