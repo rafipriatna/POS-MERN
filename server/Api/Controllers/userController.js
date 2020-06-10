@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");
-const fs = require('fs')
+const fs = require("fs");
 
 const User = require("../Models/userModel");
 
@@ -31,12 +31,11 @@ exports.createUser = (req, res, next) => {
     .spread((dataUser, isCreated) => {
       if (isCreated === false) {
         // Hapus file yang sudah diupload
-        fs.unlink(req.file.path, err => {
-            res.status(409).json({
-              error: "Username atau email sudah terdaftar",
-            });
-
-        })
+        fs.unlink(req.file.path, (err) => {
+          res.status(409).json({
+            error: "Username atau email sudah terdaftar",
+          });
+        });
       } else {
         res.status(200).json({
           message: "Berhasil membuat user baru",
@@ -129,6 +128,8 @@ exports.getUserById = (req, res, next) => {
 exports.updateUser = (req, res, next) => {
   if (req.body.password)
     req.body.password = bcrypt.hashSync(req.body.password, 10);
+
+  if (req.file) req.body.foto = req.file.filename;
 
   User.update(req.body, {
     where: {
