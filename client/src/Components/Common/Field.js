@@ -8,6 +8,7 @@ export default class Field extends Component {
           type={this.props.type}
           name={this.props.name}
           className={"form-control " + this.props.more_class}
+          value={this.props.value}
           required="required"
           placeholder={this.props.placeholder}
           onBlur={this.props.onBlur}

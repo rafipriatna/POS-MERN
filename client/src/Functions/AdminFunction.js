@@ -3,26 +3,6 @@ import querystring from "querystring";
 
 // Pengguna
 
-export const getAllPengguna = () => {
-  const data = JSON.parse(localStorage.getItem("userAuth"));
-  if (data === null) return false;
-
-  const headers = {
-    Authorization: `Bearer ${data.token}`,
-  };
-
-  return axios
-    .get("users", {
-      headers,
-    })
-    .then((result) => {
-      return result.data;
-    })
-    .catch((err) => {
-      return false;
-    });
-};
-
 export const tambahPengguna = (dataPengguna) => {
   const data = JSON.parse(localStorage.getItem("userAuth"));
   if (data === null) return false;
@@ -43,3 +23,43 @@ export const tambahPengguna = (dataPengguna) => {
       return false;
     });
 };
+
+export const getAllPengguna = () => {
+  const data = JSON.parse(localStorage.getItem("userAuth"));
+  if (data === null) return false;
+
+  const headers = {
+    Authorization: `Bearer ${data.token}`,
+  };
+
+  return axios
+    .get("/users", {
+      headers,
+    })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      return false;
+    });
+};
+
+export const getPenggunaById = (id) => {
+  const data = JSON.parse(localStorage.getItem("userAuth"));
+  if (data === null) return false;
+
+  const headers = {
+    Authorization: `Bearer ${data.token}`,
+  };
+
+  return axios
+    .get(`/users/${id}`, {
+      headers,
+    })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      return false;
+    });
+}
