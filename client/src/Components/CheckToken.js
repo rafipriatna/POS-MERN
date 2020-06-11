@@ -13,7 +13,14 @@ export default class CheckAuth extends Component {
 
     async componentDidMount(){
         const check = await checkToken()
-        this.setState({login: check})
+        if (check){
+            localStorage.setItem('userData', JSON.stringify(check))
+            this.setState({login: true})
+        }else{
+            localStorage.clear('userAuth')
+            localStorage.clear('userData')
+            this.setState({login: false})
+        }
     }
 
     render() {
