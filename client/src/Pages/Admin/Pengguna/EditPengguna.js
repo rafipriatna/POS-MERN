@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Formik, Field as FormikField } from "formik";
+import Swal from "sweetalert2";
 import * as Yup from "yup";
 
 // Components
@@ -11,11 +12,9 @@ import { editPengguna } from "../../../Functions/AdminFunction";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
-    .min(6, "Username minimal 6 karakter bre")
+    .min(4, "Username minimal 4 karakter bre")
     .required("Harus ada username"),
-  nama: Yup.string()
-    .min(3, "Namanya minimal 3 karakter bre")
-    .required("Harus ada nama"),
+  nama: Yup.string().required("Harus ada nama"),
   surel: Yup.string().email("Emailnya ga valid ni").required(),
 });
 
@@ -79,14 +78,27 @@ export default class EditPengguna extends Component {
               formData.append("foto", values.foto);
               editPengguna(formData, id)
                 .then((res) => {
-                  if (res === true) {
-                    console.log("Berhasil! Res: " + res);
-                  } else {
-                    console.log(res);
-                  }
+                  if (!res)
+                    return Swal.fire(
+                      "Oops...",
+                      "Tidak dapat memperbarui pengguna",
+                      "error"
+                    ).then(() => {
+                      this.props.history.push("/pengguna");
+                    });
+
+                  Swal.fire(
+                    "Berhasil",
+                    "Berhasil memperbarui pengguna",
+                    "success"
+                  ).then(() => {
+                    this.props.history.push("/pengguna");
+                  });
                 })
                 .catch((err) => {
-                  console.log("Error " + err);
+                  Swal.fire("Oops...", err, "error").then(() => {
+                    this.props.history.push("/pengguna");
+                  });
                 });
             }}
             enableReinitialize

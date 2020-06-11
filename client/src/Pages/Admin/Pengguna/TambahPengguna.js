@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Formik, Field as FormikField } from "formik";
+import Swal from "sweetalert2";
 import * as Yup from "yup";
 
 // Functions
@@ -10,10 +11,9 @@ import Field from "../../../Components/Common/Field";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
-    .min(6, "Username minimal 6 karakter bre")
+    .min(4, "Username minimal 4 karakter bre")
     .required("Harus ada username"),
   nama: Yup.string()
-    .min(3, "Namanya minimal 3 karakter bre")
     .required("Harus ada nama"),
   password: Yup.string()
     .min(8, "Password harus 8 karakter bjir")
@@ -50,14 +50,27 @@ export default class CreatePengguna extends Component {
               formData.append("foto", values.foto);
               tambahPengguna(formData)
                 .then((res) => {
-                  if (res === true) {
-                    console.log("Berhasil! Res: " + res);
-                  } else {
-                    console.log("Gagal! Res: " + res);
-                  }
+                  if (!res)
+                    return Swal.fire(
+                      "Oops...",
+                      "Tidak dapat menambahkan pengguna",
+                      "error"
+                    ).then(() => {
+                      this.props.history.push("/pengguna");
+                    });
+                    
+                  Swal.fire(
+                    "Berhasil",
+                    "Berhasil menambahkan pengguna",
+                    "success"
+                  ).then(() => {
+                    this.props.history.push("/pengguna");
+                  });
                 })
                 .catch((err) => {
-                  console.log("Error " + err);
+                  Swal.fire("Oops...", err, "error").then(() => {
+                    this.props.history.push("/pengguna");
+                  });
                 });
             }}
           >
