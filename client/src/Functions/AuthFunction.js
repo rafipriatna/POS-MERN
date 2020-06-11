@@ -37,6 +37,6 @@ export const checkToken = () => {
         .then(result => {
             return true
         }).catch(err => {
-            return false
+            return err
         })
 }

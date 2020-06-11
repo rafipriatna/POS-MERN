@@ -40,7 +40,7 @@ export const getAllPengguna = () => {
       return result.data;
     })
     .catch((err) => {
-      return false;
+      return err;
     });
 };
 
@@ -61,7 +61,7 @@ export const getPenggunaById = (id) => {
       return result.data;
     })
     .catch((err) => {
-      return false;
+      return err;
     });
 }
 
@@ -82,6 +82,6 @@ export const editPengguna = (dataPengguna, id) => {
       return result.data;
     })
     .catch((err) => {
-      return false;
+      return err;
     });
 }
