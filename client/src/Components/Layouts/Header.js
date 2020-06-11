@@ -1,17 +1,23 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 // Components
 import Navigation from "./Navigation";
+
+// Functions
+import { checkToken } from "../../Functions/AuthFunction";
 
 export default class Header extends Component {
   constructor() {
     super();
     this.state = {
+      login: "",
       nama: "",
       foto: "",
     };
   }
+
   logOut(e) {
     e.preventDefault();
     localStorage.clear("userAuth");
@@ -19,15 +25,23 @@ export default class Header extends Component {
     window.location = "/masuk";
   }
 
-  componentDidMount() {
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    this.setState({
-      nama: userData.nama,
-      foto: userData.foto,
-    });
+  async componentDidMount() {
+    const check = await checkToken();
+    if (check) {
+      const data = JSON.parse(JSON.stringify(check));
+      this.setState({
+        login: true,
+        nama: data.nama,
+        foto: data.foto,
+      });
+    }else{
+      localStorage.clear("userAuth");
+      this.setState({login: false})
+    }
   }
 
   render() {
+    if (this.state.login === false) return <Redirect to="/masuk" />;
     return (
       <div id="wrapper">
         <Navigation />
@@ -93,7 +107,10 @@ export default class Header extends Component {
                     <img
                       className="img-profile rounded-circle"
                       alt=""
-                      src={"http://localhost:5000/images/profile/" + this.state.foto}
+                      src={
+                        "http://localhost:5000/images/profile/" +
+                        this.state.foto
+                      }
                     />
                   </a>
                   <div
