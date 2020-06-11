@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Swal from "sweetalert2";
 import { Button, Badge } from "reactstrap";
 import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,7 +7,10 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Table from "../../../Components/Common/Table";
 
 // Function
-import { getAllPengguna } from "../../../Functions/AdminFunction";
+import {
+  getAllPengguna,
+  hapusPengguna,
+} from "../../../Functions/AdminFunction";
 
 export default class Pengguna extends Component {
   constructor() {
@@ -95,7 +99,11 @@ export default class Pengguna extends Component {
                   </Button>
                 </Link>
 
-                <Button color="danger" className="mr-2">
+                <Button
+                  color="danger"
+                  className="mr-2"
+                  onClick={(e) => this.hapusPengguna(row.id)}
+                >
                   <FontAwesomeIcon icon={faTrash} fixedWidth />
                   Delete
                 </Button>
@@ -127,6 +135,44 @@ export default class Pengguna extends Component {
       return;
     };
   }
+
+  hapusPengguna = (id) => {
+    Swal.fire({
+      title: "Hapus pengguna?",
+      text: "Data pengguna yang sudah dihapus tidak dapat dikembalikan",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Hapus",
+      cancelButtonText: "Batal",
+      showLoaderOnConfirm: true,
+      preConfirm: (proses) => {
+        return hapusPengguna(id)
+          .then((res) => {
+            if (!res) throw new Error("Error" + res);
+
+            return true;
+          })
+          .catch((err) => {
+            Swal.showValidationMessage(`Request failed: ${err}`);
+          });
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire("Berhasil", "Berhasil menghapus pengguna", "success").then(
+          () => {
+            getAllPengguna().then(data => {
+              this.setState({
+                tableData: data.users,
+              });
+            })
+          }
+        );
+      }
+    });
+  };
 
   render() {
     if (this.state.redirect === true) return <Redirect to="/" />;

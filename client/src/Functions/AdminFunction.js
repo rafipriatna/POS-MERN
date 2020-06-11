@@ -85,3 +85,23 @@ export const editPengguna = (dataPengguna, id) => {
       return err;
     });
 }
+
+export const hapusPengguna = (id) => {
+  const data = JSON.parse(localStorage.getItem("userAuth"));
+  if (data === null) return false;
+
+  const headers = {
+    "Authorization": `Bearer ${data.token}`,
+  };
+
+  return axios
+    .delete(`/users/${id}`, {
+      headers,
+    })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      return err;
+    });
+}
