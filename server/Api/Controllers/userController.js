@@ -7,6 +7,7 @@ const User = require("../Models/userModel");
 // Membuat user baru
 exports.createUser = (req, res, next) => {
   hashedPassword = bcrypt.hashSync(req.body.password, 10);
+  let foto = req.file ? req.file.filename : "default.jpg";
   User.findOrCreate({
     where: {
       [Op.or]: [
@@ -24,7 +25,7 @@ exports.createUser = (req, res, next) => {
       surel: req.body.surel,
       password: hashedPassword,
       level: req.body.level,
-      foto: req.file.filename,
+      foto: foto,
       createdAt: new Date(),
     },
   })
