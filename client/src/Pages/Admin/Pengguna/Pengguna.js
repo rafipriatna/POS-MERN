@@ -9,8 +9,8 @@ import Table from "../../../Components/Common/Table";
 // Function
 import {
   getAllPengguna,
-  hapusPengguna,
-} from "../../../Functions/AdminFunction";
+  deletePengguna,
+} from "../../../Functions/Admin/PenggunaFunction";
 
 export default class Pengguna extends Component {
   constructor() {
@@ -148,7 +148,7 @@ export default class Pengguna extends Component {
       cancelButtonText: "Batal",
       showLoaderOnConfirm: true,
       preConfirm: (proses) => {
-        return hapusPengguna(id)
+        return deletePengguna(id)
           .then((res) => {
             if (!res) throw new Error("Error" + res);
 

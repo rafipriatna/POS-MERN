@@ -5,10 +5,9 @@ import * as Yup from "yup";
 
 // Components
 import Field from "../../../Components/Common/Field";
-import { getPenggunaById } from "../../../Functions/AdminFunction";
 
 // Function
-import { editPengguna } from "../../../Functions/AdminFunction";
+import { updatePengguna, getPenggunaById } from "../../../Functions/Admin/PenggunaFunction";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -76,7 +75,7 @@ export default class EditPengguna extends Component {
               formData.set("surel", values.surel);
               formData.set("level", values.level);
               formData.append("foto", values.foto);
-              editPengguna(formData, id)
+              updatePengguna(formData, id)
                 .then((res) => {
                   if (!res)
                     return Swal.fire(

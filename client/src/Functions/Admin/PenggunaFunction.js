@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// Start Pengguna Functions
-export const tambahPengguna = (dataPengguna) => {
+// Create
+export const createPengguna = (dataPengguna) => {
   const data = JSON.parse(localStorage.getItem("userAuth"));
   if (data === null) return false;
 
@@ -22,6 +22,7 @@ export const tambahPengguna = (dataPengguna) => {
     });
 };
 
+// Get All
 export const getAllPengguna = () => {
   const data = JSON.parse(localStorage.getItem("userAuth"));
   if (data === null) return false;
@@ -42,6 +43,7 @@ export const getAllPengguna = () => {
     });
 };
 
+// Get by ID
 export const getPenggunaById = (id) => {
   const data = JSON.parse(localStorage.getItem("userAuth"));
   if (data === null) return false;
@@ -63,7 +65,8 @@ export const getPenggunaById = (id) => {
     });
 };
 
-export const editPengguna = (dataPengguna, id) => {
+// Update
+export const updatePengguna = (dataPengguna, id) => {
   const data = JSON.parse(localStorage.getItem("userAuth"));
   if (data === null) return false;
 
@@ -84,7 +87,8 @@ export const editPengguna = (dataPengguna, id) => {
     });
 };
 
-export const hapusPengguna = (id) => {
+// Delete
+export const deletePengguna = (id) => {
   const data = JSON.parse(localStorage.getItem("userAuth"));
   if (data === null) return false;
 
@@ -104,26 +108,3 @@ export const hapusPengguna = (id) => {
     });
 };
 // End Pengguna Functions
-
-// Start Barang Functions
-export const createBarang = (dataBarang) => {};
-
-export const getAllBarang = () => {
-  const data = JSON.parse(localStorage.getItem("userAuth"));
-  if (data === null) return false;
-
-  const headers = {
-    Authorization: `Bearer ${data.token}`,
-  };
-
-  return axios
-    .get("/barang", {
-      headers,
-    })
-    .then((result) => {
-      return result.data;
-    })
-    .catch((err) => {
-      return err;
-    });
-};

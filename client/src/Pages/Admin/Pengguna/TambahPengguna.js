@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import * as Yup from "yup";
 
 // Functions
-import { tambahPengguna } from "../../../Functions/AdminFunction";
+import { createPengguna } from "../../../Functions/Admin/PenggunaFunction";
 
 // Components
 import Field from "../../../Components/Common/Field";
@@ -48,7 +48,7 @@ export default class CreatePengguna extends Component {
               formData.set("password", values.password);
               formData.set("level", values.level);
               formData.append("foto", values.foto);
-              tambahPengguna(formData)
+              createPengguna(formData)
                 .then((res) => {
                   if (!res)
                     return Swal.fire(

@@ -7,7 +7,7 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Table from "../../../Components/Common/Table";
 
 // Function
-import { getAllBarang } from "../../../Functions/AdminFunction";
+import { getAllBarang } from "../../../Functions/Admin/BarangFunction";
 
 export default class DataBarang extends Component {
   constructor() {
