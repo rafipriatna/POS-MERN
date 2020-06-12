@@ -4,6 +4,8 @@ import { Button, Badge } from "reactstrap";
 import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+
+// Components
 import Table from "../../../Components/Common/Table";
 
 // Function
@@ -163,11 +165,11 @@ export default class Pengguna extends Component {
       if (result.value) {
         Swal.fire("Berhasil", "Berhasil menghapus pengguna", "success").then(
           () => {
-            getAllPengguna().then(data => {
+            getAllPengguna().then((data) => {
               this.setState({
                 tableData: data.users,
               });
-            })
+            });
           }
         );
       }

@@ -13,8 +13,7 @@ const validationSchema = Yup.object().shape({
   username: Yup.string()
     .min(4, "Username minimal 4 karakter bre")
     .required("Harus ada username"),
-  nama: Yup.string()
-    .required("Harus ada nama"),
+  nama: Yup.string().required("Harus ada nama"),
   password: Yup.string()
     .min(8, "Password harus 8 karakter bjir")
     .required("Password harus diisi"),
@@ -58,7 +57,7 @@ export default class CreatePengguna extends Component {
                     ).then(() => {
                       this.props.history.push("/pengguna");
                     });
-                    
+
                   Swal.fire(
                     "Berhasil",
                     "Berhasil menambahkan pengguna",

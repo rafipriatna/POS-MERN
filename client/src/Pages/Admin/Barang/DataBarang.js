@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Barcode from "react-barcode";
 
+// Components
 import Table from "../../../Components/Common/Table";
 
 // Function
