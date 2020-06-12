@@ -1,14 +1,13 @@
 import axios from "axios";
 
-// Pengguna
-
+// Start Pengguna Functions
 export const tambahPengguna = (dataPengguna) => {
   const data = JSON.parse(localStorage.getItem("userAuth"));
   if (data === null) return false;
 
   const headers = {
     "Content-Type": "multipart/form-data",
-    "Authorization": `Bearer ${data.token}`,
+    Authorization: `Bearer ${data.token}`,
   };
 
   return axios
@@ -49,7 +48,7 @@ export const getPenggunaById = (id) => {
 
   const headers = {
     "Content-Type": "multipart/form-data",
-    "Authorization": `Bearer ${data.token}`,
+    Authorization: `Bearer ${data.token}`,
   };
 
   return axios
@@ -62,7 +61,7 @@ export const getPenggunaById = (id) => {
     .catch((err) => {
       return err;
     });
-}
+};
 
 export const editPengguna = (dataPengguna, id) => {
   const data = JSON.parse(localStorage.getItem("userAuth"));
@@ -70,7 +69,7 @@ export const editPengguna = (dataPengguna, id) => {
 
   const headers = {
     "Content-Type": "multipart/form-data",
-    "Authorization": `Bearer ${data.token}`,
+    Authorization: `Bearer ${data.token}`,
   };
 
   return axios
@@ -83,14 +82,14 @@ export const editPengguna = (dataPengguna, id) => {
     .catch((err) => {
       return err;
     });
-}
+};
 
 export const hapusPengguna = (id) => {
   const data = JSON.parse(localStorage.getItem("userAuth"));
   if (data === null) return false;
 
   const headers = {
-    "Authorization": `Bearer ${data.token}`,
+    Authorization: `Bearer ${data.token}`,
   };
 
   return axios
@@ -103,4 +102,28 @@ export const hapusPengguna = (id) => {
     .catch((err) => {
       return err;
     });
-}
+};
+// End Pengguna Functions
+
+// Start Barang Functions
+export const createBarang = (dataBarang) => {};
+
+export const getAllBarang = () => {
+  const data = JSON.parse(localStorage.getItem("userAuth"));
+  if (data === null) return false;
+
+  const headers = {
+    Authorization: `Bearer ${data.token}`,
+  };
+
+  return axios
+    .get("/barang", {
+      headers,
+    })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      return err;
+    });
+};

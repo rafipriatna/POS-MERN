@@ -19,7 +19,7 @@ import TambahPengguna from "./Pages/Admin/Pengguna/TambahPengguna";
 import EditPengguna from "./Pages/Admin/Pengguna/EditPengguna";
 
 // Admin Barang
-import DataBarang from "./Pages/Admin/DataBarang";
+import DataBarang from "./Pages/Admin/Barang/DataBarang";
 
 function App() {
   return (
