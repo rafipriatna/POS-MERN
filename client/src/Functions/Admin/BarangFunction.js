@@ -41,3 +41,45 @@ export const getAllBarang = () => {
       return err;
     });
 };
+
+// Get By ID
+export const getBarangById = (id) => {
+  const data = JSON.parse(localStorage.getItem("userAuth"));
+  if (data === null) return false;
+
+  const headers = {
+    Authorization: `Bearer ${data.token}`,
+  };
+
+  return axios
+    .get(`/barang/${id}`, {
+      headers,
+    })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+// Update
+export const updateBarang = (dataBarang, id) => {
+  const data = JSON.parse(localStorage.getItem("userAuth"));
+  if (data === null) return false;
+
+  const headers = {
+    Authorization: `Bearer ${data.token}`,
+  };
+
+  return axios
+    .patch(`/barang/${id}`, dataBarang, {
+      headers,
+    })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      return err;
+    });
+};

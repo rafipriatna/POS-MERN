@@ -97,7 +97,7 @@ export default class DataBarang extends Component {
           formatter: (rowContent, row) => {
             return (
               <div className="text-right">
-                <Link to={"/pengguna/edit/" + row.id}>
+                <Link to={"/barang/edit/" + row.id}>
                   <Button color="info" className="mr-2">
                     <FontAwesomeIcon icon={faEdit} fixedWidth />
                     Edit
