@@ -14,6 +14,7 @@
     "formik": "^2.1.4",
     "querystring": "^0.2.0",
     "react": "^16.13.1",
+    "react-barcode": "^1.4.0",
     "react-bootstrap-table-next": "^4.0.3",
     "react-bootstrap-table2-paginator": "^2.1.2",
     "react-bootstrap-table2-toolkit": "^2.1.3",

@@ -4,6 +4,8 @@ import { Button, Badge } from "reactstrap";
 import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import Barcode from "react-barcode";
+
 import Table from "../../../Components/Common/Table";
 
 // Function
@@ -26,9 +28,18 @@ export default class DataBarang extends Component {
         {
           dataField: "barcode",
           text: "Barcode",
-          sort: true,
           headerStyle: () => {
             return { width: "10%" };
+          },
+          formatter: (rowContent, row) => {
+            return (
+              <Barcode
+                value={row.barcode}
+                width="1"
+                height="50"
+                fontSize="12"
+              />
+            );
           },
         },
         {
@@ -129,43 +140,43 @@ export default class DataBarang extends Component {
     };
   }
 
-//   hapusPengguna = (id) => {
-//     Swal.fire({
-//       title: "Hapus pengguna?",
-//       text: "Data pengguna yang sudah dihapus tidak dapat dikembalikan",
-//       icon: "warning",
-//       showCancelButton: true,
-//       confirmButtonColor: "#3085d6",
-//       cancelButtonColor: "#d33",
-//       confirmButtonText: "Hapus",
-//       cancelButtonText: "Batal",
-//       showLoaderOnConfirm: true,
-//       preConfirm: (proses) => {
-//         return hapusPengguna(id)
-//           .then((res) => {
-//             if (!res) throw new Error("Error" + res);
+  //   hapusPengguna = (id) => {
+  //     Swal.fire({
+  //       title: "Hapus pengguna?",
+  //       text: "Data pengguna yang sudah dihapus tidak dapat dikembalikan",
+  //       icon: "warning",
+  //       showCancelButton: true,
+  //       confirmButtonColor: "#3085d6",
+  //       cancelButtonColor: "#d33",
+  //       confirmButtonText: "Hapus",
+  //       cancelButtonText: "Batal",
+  //       showLoaderOnConfirm: true,
+  //       preConfirm: (proses) => {
+  //         return hapusPengguna(id)
+  //           .then((res) => {
+  //             if (!res) throw new Error("Error" + res);
 
-//             return true;
-//           })
-//           .catch((err) => {
-//             Swal.showValidationMessage(`Request failed: ${err}`);
-//           });
-//       },
-//       allowOutsideClick: () => !Swal.isLoading(),
-//     }).then((result) => {
-//       if (result.value) {
-//         Swal.fire("Berhasil", "Berhasil menghapus pengguna", "success").then(
-//           () => {
-//             getAllPengguna().then((data) => {
-//               this.setState({
-//                 tableData: data.users,
-//               });
-//             });
-//           }
-//         );
-//       }
-//     });
-//   };
+  //             return true;
+  //           })
+  //           .catch((err) => {
+  //             Swal.showValidationMessage(`Request failed: ${err}`);
+  //           });
+  //       },
+  //       allowOutsideClick: () => !Swal.isLoading(),
+  //     }).then((result) => {
+  //       if (result.value) {
+  //         Swal.fire("Berhasil", "Berhasil menghapus pengguna", "success").then(
+  //           () => {
+  //             getAllPengguna().then((data) => {
+  //               this.setState({
+  //                 tableData: data.users,
+  //               });
+  //             });
+  //           }
+  //         );
+  //       }
+  //     });
+  //   };
 
   render() {
     if (this.state.redirect === true) return <Redirect to="/" />;
