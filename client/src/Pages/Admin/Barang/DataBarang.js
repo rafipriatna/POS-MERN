@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Swal from "sweetalert2";
-import { Button, Badge } from "reactstrap";
+import { Button } from "reactstrap";
 import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -36,9 +36,9 @@ export default class DataBarang extends Component {
             return (
               <Barcode
                 value={row.barcode}
-                width="1"
-                height="50"
-                fontSize="12"
+                width={1}
+                height={50}
+                fontSize={12}
               />
             );
           },
@@ -193,7 +193,7 @@ export default class DataBarang extends Component {
                 </h6>
               </div>
               <div className="card-body">
-                <Link to="/pengguna/tambah" className="btn btn-primary">
+                <Link to="/barang/tambah" className="btn btn-primary">
                   Tambah
                 </Link>
                 <div className="container-fluid">
