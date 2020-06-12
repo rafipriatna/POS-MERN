@@ -20,7 +20,7 @@ const validationSchema = Yup.object().shape({
   surel: Yup.string().email("Emailnya ga valid ni").required(),
 });
 
-export default class CreatePengguna extends Component {
+export default class TambahPengguna extends Component {
   render() {
     return (
       <div className="container-fluid">
