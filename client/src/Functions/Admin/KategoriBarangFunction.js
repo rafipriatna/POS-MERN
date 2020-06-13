@@ -41,3 +41,45 @@ export const getAllKategoriBarang = () => {
       return err;
     });
 };
+
+// Get by ID
+export const getKategoriBarangById = (id) => {
+  const data = JSON.parse(localStorage.getItem("userAuth"));
+  if (data === null) return false;
+
+  const headers = {
+    Authorization: `Bearer ${data.token}`,
+  };
+
+  return axios
+    .get(`/barang/kategori/${id}`, {
+      headers,
+    })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+// Update
+export const updateKategoriBarang = (dataKategoriBarang, id) => {
+  const data = JSON.parse(localStorage.getItem("userAuth"));
+  if (data === null) return false;
+
+  const headers = {
+    Authorization: `Bearer ${data.token}`,
+  };
+
+  return axios
+    .patch(`/barang/kategori/${id}`, dataKategoriBarang, {
+      headers,
+    })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
