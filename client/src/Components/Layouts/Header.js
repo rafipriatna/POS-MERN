@@ -9,12 +9,11 @@ import Navigation from "./Navigation";
 import { checkToken } from "../../Functions/AuthFunction";
 
 export default class Header extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       login: "",
-      nama: "",
-      foto: "",
+      dataUser: [],
     };
   }
 
@@ -31,12 +30,11 @@ export default class Header extends Component {
       const data = JSON.parse(JSON.stringify(check));
       this.setState({
         login: true,
-        nama: data.nama,
-        foto: data.foto,
+        dataUser: data,
       });
-    }else{
+    } else {
       localStorage.clear("userAuth");
-      this.setState({login: false})
+      this.setState({ login: false });
     }
   }
 
@@ -44,8 +42,7 @@ export default class Header extends Component {
     if (this.state.login === false) return <Redirect to="/masuk" />;
     return (
       <div id="wrapper">
-        <Navigation />
-
+        <Navigation level={this.state} />
         <div id="content-wrapper" className="d-flex flex-column">
           <div id="content">
             <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -102,14 +99,14 @@ export default class Header extends Component {
                     aria-expanded="false"
                   >
                     <span className="mr-2 d-none d-lg-inline text-gray-600 small">
-                      {this.state.nama}
+                      {this.state.dataUser.nama}
                     </span>
                     <img
                       className="img-profile rounded-circle"
                       alt=""
                       src={
                         "http://localhost:5000/images/profile/" +
-                        this.state.foto
+                        this.state.dataUser.foto
                       }
                     />
                   </a>
