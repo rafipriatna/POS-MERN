@@ -43,6 +43,7 @@ function App() {
           <Route exact path="/barang/tambah" component={TambahBarang} />
           <Route exact path="/barang/edit/:id" component={EditBarang} />
           <Route exact path="/barang/kategori" component={KategoriBarang} />
+          <Route exact path="/barang/kategori/tambah" component={TambahKategoriBarang} />
           <Route exact path="/barang/kategori/edit/:id" component={EditKategoriBarang} />
           <Redirect to="/" />
         </PageWrapper>
