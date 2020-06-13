@@ -9,7 +9,7 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Table from "../../../../Components/Common/Table";
 
 // Function
-import { getAllKategoriBarang } from "../../../../Functions/Admin/KategoriBarangFunction";
+import { getAllKategoriBarang, deleteKategoriBarang } from "../../../../Functions/Admin/KategoriBarangFunction";
 
 export default class KategoriBarang extends Component {
   constructor() {
@@ -92,40 +92,42 @@ export default class KategoriBarang extends Component {
   }
 
   hapusKategoriBarang = (id) => {
-    // Swal.fire({
-    //   title: "Hapus kategori barang?",
-    //   text: "Data kategori barang yang sudah dihapus tidak dapat dikembalikan",
-    //   icon: "warning",
-    //   showCancelButton: true,
-    //   confirmButtonColor: "#3085d6",
-    //   cancelButtonColor: "#d33",
-    //   confirmButtonText: "Hapus",
-    //   cancelButtonText: "Batal",
-    //   showLoaderOnConfirm: true,
-    //   preConfirm: (proses) => {
-    //     return deleteBarang(id)
-    //       .then((res) => {
-    //         if (!res) throw new Error("Error" + res);
-    //         return true;
-    //       })
-    //       .catch((err) => {
-    //         Swal.showValidationMessage(`Request failed: ${err}`);
-    //       });
-    //   },
-    //   allowOutsideClick: () => !Swal.isLoading(),
-    // }).then((result) => {
-    //   if (result.value) {
-    //     Swal.fire("Berhasil", "Berhasil menghapus kategori barang", "success").then(
-    //       () => {
-    //         getAllBarang().then((data) => {
-    //           this.setState({
-    //             tableData: data.barang,
-    //           });
-    //         });
-    //       }
-    //     );
-    //   }
-    // });
+    Swal.fire({
+      title: "Hapus kategori barang?",
+      text: "Data kategori barang yang sudah dihapus tidak dapat dikembalikan",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Hapus",
+      cancelButtonText: "Batal",
+      showLoaderOnConfirm: true,
+      preConfirm: (proses) => {
+        return deleteKategoriBarang(id)
+          .then((res) => {
+            if (!res) throw new Error("Error" + res);
+            return true;
+          })
+          .catch((err) => {
+            Swal.showValidationMessage(`Request failed: ${err}`);
+          });
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire(
+          "Berhasil",
+          "Berhasil menghapus kategori barang",
+          "success"
+        ).then(() => {
+          getAllKategoriBarang().then((data) => {
+            this.setState({
+              tableData: data.kategori,
+            });
+          });
+        });
+      }
+    });
   };
 
   render() {

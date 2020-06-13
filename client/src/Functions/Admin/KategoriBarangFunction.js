@@ -83,3 +83,24 @@ export const updateKategoriBarang = (dataKategoriBarang, id) => {
       return err;
     });
 };
+
+// Delete
+export const deleteKategoriBarang = (id) => {
+  const data = JSON.parse(localStorage.getItem("userAuth"));
+  if (data === null) return false;
+
+  const headers = {
+    Authorization: `Bearer ${data.token}`,
+  };
+
+  return axios
+    .delete(`/barang/kategori/${id}`, {
+      headers,
+    })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
