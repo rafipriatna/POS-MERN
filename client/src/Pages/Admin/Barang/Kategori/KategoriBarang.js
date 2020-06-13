@@ -142,7 +142,7 @@ export default class KategoriBarang extends Component {
                 </h6>
               </div>
               <div className="card-body">
-                <Link to="/barang/tambah" className="btn btn-primary">
+                <Link to="/barang/kategori/tambah" className="btn btn-primary">
                   Tambah
                 </Link>
                 <div className="container-fluid">

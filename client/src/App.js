@@ -25,6 +25,7 @@ import EditBarang from "./Pages/Admin/Barang/EditBarang";
 
 // Admin Kategori Barang
 import KategoriBarang from "./Pages/Admin/Barang/Kategori/KategoriBarang";
+import TambahKategoriBarang from "./Pages/Admin/Barang/Kategori/TambahKategoriBarang"
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route exact path="/barang/tambah" component={TambahBarang} />
           <Route exact path="/barang/edit/:id" component={EditBarang} />
           <Route exact path="/barang/kategori" component={KategoriBarang} />
+          <Route exact path="/barang/kategori/tambah" component={TambahKategoriBarang} />
           <Redirect to="/" />
         </PageWrapper>
       </Switch>
