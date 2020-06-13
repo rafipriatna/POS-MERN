@@ -46,6 +46,8 @@ export default class EditBarang extends Component {
         return this.setState({
           barangKategori: isiKategori.id,
         });
+
+      return true;
     });
 
     this.setState({
