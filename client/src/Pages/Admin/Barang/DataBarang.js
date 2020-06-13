@@ -18,6 +18,11 @@ import {
 export default class DataBarang extends Component {
   constructor() {
     super();
+    let barcodeOptions = {
+      width: 1,
+      height: 50,
+      fontSize: 12,
+    };
     this.state = {
       tableColumn: [
         {
@@ -36,14 +41,7 @@ export default class DataBarang extends Component {
             return { width: "10%" };
           },
           formatter: (rowContent, row) => {
-            return (
-              <Barcode
-                value={row.barcode}
-                width={1}
-                height={50}
-                fontSize={12}
-              />
-            );
+            return <Barcode {...barcodeOptions} value={row.barcode} />;
           },
         },
         {
