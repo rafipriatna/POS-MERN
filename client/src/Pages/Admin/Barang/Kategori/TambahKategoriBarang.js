@@ -15,13 +15,6 @@ const validationSchema = Yup.object().shape({
 });
 
 export default class TambahKategoriBarang extends Component {
-  constructor() {
-    super();
-    this.state = {
-      kategoriBarang: [],
-    };
-  }
-
   render() {
     return (
       <div className="container-fluid">
