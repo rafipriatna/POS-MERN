@@ -83,3 +83,24 @@ export const updateBarang = (dataBarang, id) => {
       return err;
     });
 };
+
+// Delete
+export const deleteBarang = (id) => {
+  const data = JSON.parse(localStorage.getItem("userAuth"));
+  if (data === null) return false;
+
+  const headers = {
+    Authorization: `Bearer ${data.token}`,
+  };
+
+  return axios
+    .delete(`/barang/${id}`, {
+      headers,
+    })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      return err;
+    });
+};

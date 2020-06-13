@@ -10,7 +10,10 @@ import Barcode from "react-barcode";
 import Table from "../../../Components/Common/Table";
 
 // Function
-import { getAllBarang } from "../../../Functions/Admin/BarangFunction";
+import {
+  getAllBarang,
+  deleteBarang,
+} from "../../../Functions/Admin/BarangFunction";
 
 export default class DataBarang extends Component {
   constructor() {
@@ -107,7 +110,7 @@ export default class DataBarang extends Component {
                 <Button
                   color="danger"
                   className="mr-2"
-                  onClick={(e) => this.hapusPengguna(row.id)}
+                  onClick={(e) => this.hapusBarang(row.id)}
                 >
                   <FontAwesomeIcon icon={faTrash} fixedWidth />
                   Delete
@@ -141,43 +144,43 @@ export default class DataBarang extends Component {
     };
   }
 
-  //   hapusPengguna = (id) => {
-  //     Swal.fire({
-  //       title: "Hapus pengguna?",
-  //       text: "Data pengguna yang sudah dihapus tidak dapat dikembalikan",
-  //       icon: "warning",
-  //       showCancelButton: true,
-  //       confirmButtonColor: "#3085d6",
-  //       cancelButtonColor: "#d33",
-  //       confirmButtonText: "Hapus",
-  //       cancelButtonText: "Batal",
-  //       showLoaderOnConfirm: true,
-  //       preConfirm: (proses) => {
-  //         return hapusPengguna(id)
-  //           .then((res) => {
-  //             if (!res) throw new Error("Error" + res);
+  hapusBarang = (id) => {
+    Swal.fire({
+      title: "Hapus barang?",
+      text: "Data barang yang sudah dihapus tidak dapat dikembalikan",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Hapus",
+      cancelButtonText: "Batal",
+      showLoaderOnConfirm: true,
+      preConfirm: (proses) => {
+        return deleteBarang(id)
+          .then((res) => {
+            if (!res) throw new Error("Error" + res);
 
-  //             return true;
-  //           })
-  //           .catch((err) => {
-  //             Swal.showValidationMessage(`Request failed: ${err}`);
-  //           });
-  //       },
-  //       allowOutsideClick: () => !Swal.isLoading(),
-  //     }).then((result) => {
-  //       if (result.value) {
-  //         Swal.fire("Berhasil", "Berhasil menghapus pengguna", "success").then(
-  //           () => {
-  //             getAllPengguna().then((data) => {
-  //               this.setState({
-  //                 tableData: data.users,
-  //               });
-  //             });
-  //           }
-  //         );
-  //       }
-  //     });
-  //   };
+            return true;
+          })
+          .catch((err) => {
+            Swal.showValidationMessage(`Request failed: ${err}`);
+          });
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire("Berhasil", "Berhasil menghapus barang", "success").then(
+          () => {
+            getAllBarang().then((data) => {
+              this.setState({
+                tableData: data.barang,
+              });
+            });
+          }
+        );
+      }
+    });
+  };
 
   render() {
     if (this.state.redirect === true) return <Redirect to="/" />;
