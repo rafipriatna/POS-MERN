@@ -1,13 +1,20 @@
 import React, { Component } from "react";
 
 export default class Penjualan extends Component {
+  constructor() {
+    super();
+    const time = new Date().getTime()
+    this.state = {
+      kode_penjualan: time,
+    };
+  }
   render() {
     return (
       <div className="container-fluid">
         <div>
           <h1 className="h3 mb-2 text-gray-800">Penjualan</h1>
           <div className="card shadow mb-4">
-            <div className="card-header py-3">Kode Penjualan: RM-0001</div>
+            <div className="card-header py-3">Kode Penjualan: {this.state.kode_penjualan}</div>
             <div className="card-body">
               <div className="col-lg-3">
                 <div className="card">
@@ -116,7 +123,7 @@ export default class Penjualan extends Component {
               </div>
             </div>
             <div className="card-footer text-right">
-                <button className="btn btn-primary">Cetak Struk</button>
+              <button className="btn btn-primary">Cetak Struk</button>
             </div>
           </div>
         </div>
