@@ -63,6 +63,27 @@ export const getBarangById = (id) => {
     });
 };
 
+// Get By Barcode
+export const getBarangByBarcode = (barcode) => {
+  const data = JSON.parse(localStorage.getItem("userAuth"));
+  if (data === null) return false;
+
+  const headers = {
+    Authorization: `Bearer ${data.token}`,
+  };
+
+  return axios
+    .get(`/barang/barcode/${barcode}`, {
+      headers,
+    })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
 // Update
 export const updateBarang = (dataBarang, id) => {
   const data = JSON.parse(localStorage.getItem("userAuth"));

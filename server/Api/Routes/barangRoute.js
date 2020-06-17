@@ -14,6 +14,7 @@ const barangController = require('../Controllers/barangController')
 router.post('/', checkAuth.adminAuth, barangController.createBarang)
 router.get('/', checkAuth.adminAuth, barangController.getAllBarang)
 router.get('/:id(\\d+)/', checkAuth.adminAuth, barangController.getBarangById)
+router.get('/barcode/:barcode(\\d+)/', checkAuth.adminAuth, barangController.getBarangByBarcode)
 router.patch('/:id(\\d+)/', checkAuth.adminAuth, barangController.updateBarang)
 router.delete('/:id(\\d+)/', checkAuth.adminAuth, barangController.deleteBarang)
 

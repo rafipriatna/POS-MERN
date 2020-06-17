@@ -129,6 +129,51 @@ exports.getBarangById = (req, res, next) => {
         })
 }
 
+// Mengambil barang berdasarkan barcode
+exports.getBarangByBarcode = (req, res, next) => {
+    Barang
+        .findOne({
+            where: {
+                barcode: req.params.barcode
+            },
+            include: [{
+                model: KategoriBarang,
+                as: 'KB'
+            }]
+        })
+        .then(barang => {
+            if (barang === null)
+                return res
+                    .status(404)
+                    .json({
+                        error: "Barang tidak ditemukan"
+                    })
+            const response = {
+                count: barang.length,
+                barang: {
+                    id: barang.id,
+                    barcode: barang.barcode,
+                    nama: barang.nama,
+                    kategori: barang.KB.nama,
+                    satuan: barang.satuan,
+                    harga_beli: barang.harga_beli,
+                    harga_jual: barang.harga_jual,
+                    stok: barang.stok
+                }
+            }
+            res
+                .status(200)
+                .json(response)
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .json({
+                    error: err
+                })
+        })
+}
+
 // Update barang
 exports.updateBarang = (req, res, next) => {
     Barang

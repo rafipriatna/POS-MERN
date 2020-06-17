@@ -1,13 +1,37 @@
 import React, { Component } from "react";
 
+// Components
+import Field from '../../Components/Common/Field'
+
+// Function
+import { getBarangByBarcode } from "../../Functions/Admin/BarangFunction";
+
 export default class Penjualan extends Component {
   constructor() {
     super();
     const time = new Date().getTime()
     this.state = {
       kode_penjualan: time,
+      barcode_barang: '',
     };
+    this.onChange = this.onChange.bind(this)
+    this.cariBarang = this.cariBarang.bind(this)
   }
+
+  onChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  cariBarang(e) {
+    e.preventDefault();
+    let barcode = this.state.barcode_barang;
+    getBarangByBarcode(barcode).then(res => {
+      console.log(res)
+    })
+  }
+
   render() {
     return (
       <div className="container-fluid">
@@ -18,20 +42,26 @@ export default class Penjualan extends Component {
             <div className="card-body">
               <div className="col-lg-3">
                 <div className="card">
-                  <div className="card-body">
-                    <form>
+                  <form onSubmit={this.cariBarang}>
+                    <div className="card-body">
                       <label>Barcode Barang:</label>
-                      <input type="text" className="form-control" />
-                    </form>
-                  </div>
-                  <div className="card-footer text-right">
-                    <button
-                      type="submit"
-                      className="btn btn-primary text-right"
-                    >
-                      Tambah
+                      <Field
+                        type="text"
+                        name="barcode_barang"
+                        placeholder="Masukkan barcode"
+                        value={this.state.barcode_barang}
+                        onChange={this.onChange}
+                      />
+                    </div>
+                    <div className="card-footer text-right">
+                      <button
+                        type="submit"
+                        className="btn btn-primary text-right"
+                      >
+                        Tambah
                     </button>
-                  </div>
+                    </div>
+                  </form>
                 </div>
               </div>
 
