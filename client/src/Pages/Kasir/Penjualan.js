@@ -1,7 +1,11 @@
 import React, { Component } from "react";
+import { Button } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 // Components
 import Field from '../../Components/Common/Field'
+import Table from '../../Components/Common/Table'
 
 // Function
 import { getBarangByBarcode } from "../../Functions/Admin/BarangFunction";
@@ -13,6 +17,71 @@ export default class Penjualan extends Component {
     this.state = {
       kode_penjualan: time,
       barcode_barang: '',
+      tableColumn: [
+        {
+          dataField: "number",
+          text: "#",
+          headerAlign: "center",
+          headerStyle: () => {
+            return { width: "5%" };
+          }
+        },
+        {
+          dataField: "nama",
+          text: "Nama Barang",
+          sort: true,
+          headerStyle: () => {
+            return { width: "35%" };
+          },
+        },
+        {
+          dataField: "harga_jual",
+          text: "Harga",
+          sort: true,
+          headerStyle: () => {
+            return { width: "25%" };
+          },
+        },
+        {
+          dataField: "jumlah",
+          text: "Qty",
+          sort: true,
+          headerStyle: () => {
+            return { width: "10%" };
+          },
+        },
+        {
+          dataField: "total",
+          text: "Total",
+          sort: true,
+          headerStyle: () => {
+            return { width: "25%" };
+          },
+        },
+        {
+          dataField: "aksi",
+          text: "Action",
+          formatter: (rowContent, row) => {
+            return (
+              <div className="text-right">
+                <Button
+                  color="danger"
+                  className="mr-2"
+                // onClick={(e) => this.hapusBarang(row.id)}
+                >
+                  <FontAwesomeIcon icon={faTrash} fixedWidth />
+                  Hapus
+                </Button>
+              </div>
+            );
+          },
+          headerStyle: () => {
+            return { width: "10%" };
+          },
+        },
+      ],
+      tableData: [],
+      redirect: false,
     };
     this.onChange = this.onChange.bind(this)
     this.cariBarang = this.cariBarang.bind(this)
@@ -28,7 +97,7 @@ export default class Penjualan extends Component {
     e.preventDefault();
     let barcode = this.state.barcode_barang;
     getBarangByBarcode(barcode).then(res => {
-      console.log(res)
+      console.log(res.barang.id)
     })
   }
 
@@ -66,40 +135,11 @@ export default class Penjualan extends Component {
               </div>
 
               <div className="container-fluid mt-4">
-                <table className="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Nama Barang</th>
-                      <th>Harga</th>
-                      <th>Qty</th>
-                      <th>Total</th>
-                      <th>Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th>1</th>
-                      <td>Barang Pertama</td>
-                      <td>Rp. 150.000</td>
-                      <td>20</td>
-                      <td>Rp. 1.500.000</td>
-                      <td className="text-right">
-                        <button className="btn btn-danger">Hapus</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>2</th>
-                      <td>Barang Kedua</td>
-                      <td>Rp. 150.000</td>
-                      <td>20</td>
-                      <td>Rp. 1.500.000</td>
-                      <td className="text-right">
-                        <button className="btn btn-danger">Hapus</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                <Table
+                  data={this.state.tableData}
+                  columns={this.state.tableColumn}
+                  tanpaCari={true}
+                />
 
                 <div className="row">
                   <div className="col-lg-6">
