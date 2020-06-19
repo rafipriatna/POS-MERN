@@ -6,7 +6,6 @@ export const createPenjualan = (dataPenjualan) => {
   if (data === null) return false;
 
   const headers = {
-    "Content-Type": "multipart/form-data",
     Authorization: `Bearer ${data.token}`,
   };
 
@@ -18,6 +17,6 @@ export const createPenjualan = (dataPenjualan) => {
       return true;
     })
     .catch((err) => {
-      return false;
+      return err;
     });
 };

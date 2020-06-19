@@ -4,19 +4,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 // Components
-import Field from '../../Components/Common/Field'
-import Table from '../../Components/Common/Table'
+import Field from "../../Components/Common/Field";
+import Table from "../../Components/Common/Table";
 
 // Function
 import { getBarangByBarcode } from "../../Functions/Admin/BarangFunction";
+import { createPenjualan } from "../../Functions/Kasir/PenjualanFunction";
 
 export default class Penjualan extends Component {
   constructor() {
     super();
-    const time = new Date().getTime()
+    const time = new Date().getTime();
     this.state = {
       kode_penjualan: time,
-      barcode_barang: '',
+      barcode_barang: "",
       tableColumn: [
         {
           dataField: "number",
@@ -24,7 +25,7 @@ export default class Penjualan extends Component {
           headerAlign: "center",
           headerStyle: () => {
             return { width: "5%" };
-          }
+          },
         },
         {
           dataField: "nama",
@@ -67,7 +68,7 @@ export default class Penjualan extends Component {
                 <Button
                   color="danger"
                   className="mr-2"
-                // onClick={(e) => this.hapusBarang(row.id)}
+                  // onClick={(e) => this.hapusBarang(row.id)}
                 >
                   <FontAwesomeIcon icon={faTrash} fixedWidth />
                   Hapus
@@ -83,22 +84,37 @@ export default class Penjualan extends Component {
       tableData: [],
       redirect: false,
     };
-    this.onChange = this.onChange.bind(this)
-    this.cariBarang = this.cariBarang.bind(this)
+    this.onChange = this.onChange.bind(this);
+    this.cariBarang = this.cariBarang.bind(this);
   }
 
   onChange(e) {
     this.setState({
-      [e.target.name]: e.target.value
-    })
+      [e.target.name]: e.target.value,
+    });
   }
 
   cariBarang(e) {
     e.preventDefault();
     let barcode = this.state.barcode_barang;
-    getBarangByBarcode(barcode).then(res => {
-      console.log(res.barang.id)
-    })
+    getBarangByBarcode(barcode).then((res) => {
+      // Simpan ke Penjualan
+      const kode_penjualan = this.state.kode_penjualan;
+      const id = res.barang.id;
+      const total = res.barang.harga_jual;
+
+      let dataPenjualan = {
+        kode_penjualan: kode_penjualan,
+        id_barang: id,
+        jumlah: 1,
+        total: total,
+      };
+      console.log(dataPenjualan);
+      createPenjualan(dataPenjualan).then((result) => {
+        console.log(result);
+      });
+      // console.log(res.barang.id);
+    });
   }
 
   render() {
@@ -107,7 +123,9 @@ export default class Penjualan extends Component {
         <div>
           <h1 className="h3 mb-2 text-gray-800">Penjualan</h1>
           <div className="card shadow mb-4">
-            <div className="card-header py-3">Kode Penjualan: {this.state.kode_penjualan}</div>
+            <div className="card-header py-3">
+              Kode Penjualan: {this.state.kode_penjualan}
+            </div>
             <div className="card-body">
               <div className="col-lg-3">
                 <div className="card">
@@ -128,7 +146,7 @@ export default class Penjualan extends Component {
                         className="btn btn-primary text-right"
                       >
                         Tambah
-                    </button>
+                      </button>
                     </div>
                   </form>
                 </div>
