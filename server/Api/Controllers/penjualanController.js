@@ -6,26 +6,59 @@ const Barang = require("../Models/barangModel");
 // Associations
 Penjualan.belongsTo(Barang, {
   foreignKey: "id_barang",
-  as: "BRG"
+  as: "BRG",
 });
 
 // Membuat data penjualan
 exports.createPenjualan = (req, res, next) => {
-  Penjualan.create({
-    kode_penjualan: req.body.kode_penjualan,
-    id_barang: req.body.id_barang,
-    jumlah: req.body.jumlah,
-    total: req.body.total,
-    tanggal: new Date(),
-  })
-    .then((result) => {
-      res.status(200).json(result);
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
+  Penjualan.findOne({
+    where: {
+      [Op.and]: [
+        { kode_penjualan: req.body.kode_penjualan },
+        { id_barang: req.body.id_barang },
+      ],
+    },
+    include: [
+      {
+        model: Barang,
+        as: "BRG",
+      },
+    ],
+  }).then((penjualan) => {
+    if (penjualan !== null) {
+      // Jika ada penjualan dengan kode penjualan dan id barang yang sama
+      // Maka tambahkan jumlahnya
+      Penjualan.update(
+        {
+          jumlah: penjualan.jumlah + 1,
+          total: penjualan.total + penjualan.BRG.harga_jual,
+        },
+        {
+          where: {
+            id: penjualan.id,
+          },
+        }
+      ).then((result) => {
+        res.status(200).json(result);
       });
-    });
+    } else {
+      Penjualan.create({
+        kode_penjualan: req.body.kode_penjualan,
+        id_barang: req.body.id_barang,
+        jumlah: req.body.jumlah,
+        total: req.body.total,
+        tanggal: new Date(),
+      })
+        .then((result) => {
+          res.status(200).json(result);
+        })
+        .catch((err) => {
+          res.status(500).json({
+            error: err,
+          });
+        });
+    }
+  });
 };
 
 // Mengambil semua penjualan
@@ -67,7 +100,7 @@ exports.getPenjualanByKodePenjualan = (req, res, next) => {
     include: [
       {
         model: Barang,
-        as: "BRG"
+        as: "BRG",
       },
     ],
   })
@@ -81,10 +114,8 @@ exports.getPenjualanByKodePenjualan = (req, res, next) => {
           return {
             id: penjualan.id,
             kode_penjualan: penjualan.kode_penjualan,
-            id_barang: {
-              id: penjualan.id_barang,
-              nama: penjualan.BRG.nama
-            },
+            nama_barang: penjualan.BRG.nama,
+            harga: penjualan.BRG.harga_jual,
             jumlah: penjualan.jumlah,
             total: penjualan.total,
             tanggal: penjualan.tanggal,
