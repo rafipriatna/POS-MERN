@@ -133,15 +133,22 @@ exports.getPenjualanByKodePenjualan = (req, res, next) => {
 
 // Update jumlah penjualan per item
 exports.updateOneItemPenjualan = (req, res, next) => {
-  Penjualan.update(req.body, {
-    where: {
-      id: req.params.id,
+  Penjualan.update(
+    {
+      jumlah: req.body.jumlah,
+      total: req.body.total
     },
-  })
+    {
+      where: {
+        id: req.params.id,
+      },
+    }
+  )
     .then((result) => {
       res.status(200).json({
         message: "Penjualan berhasil diupdate",
       });
+      console.log(req.body)
     })
     .catch((err) => {
       res.status(500).json({
