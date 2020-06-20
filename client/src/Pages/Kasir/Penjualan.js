@@ -20,48 +20,36 @@ export default class Penjualan extends Component {
       barcode_barang: "",
       tableColumn: [
         {
-          dataField: "number",
-          text: "#",
-          headerAlign: "center",
-          headerStyle: () => {
-            return { width: "5%" };
-          },
-        },
-        {
           dataField: "nama",
           text: "Nama Barang",
-          sort: true,
           headerStyle: () => {
-            return { width: "35%" };
+            return { width: "450px" };
           },
         },
         {
           dataField: "harga_jual",
           text: "Harga",
-          sort: true,
           headerStyle: () => {
-            return { width: "25%" };
+            return { width: "400px" };
           },
         },
         {
           dataField: "jumlah",
           text: "Qty",
-          sort: true,
           headerStyle: () => {
-            return { width: "10%" };
+            return { width: "100px" };
           },
         },
         {
           dataField: "total",
           text: "Total",
-          sort: true,
           headerStyle: () => {
-            return { width: "25%" };
+            return { width: "400px" };
           },
         },
         {
           dataField: "aksi",
-          text: "Action",
+          text: "Aksi",
           formatter: (rowContent, row) => {
             return (
               <div className="text-right">
@@ -77,7 +65,7 @@ export default class Penjualan extends Component {
             );
           },
           headerStyle: () => {
-            return { width: "10%" };
+            return { width: "20%" };
           },
         },
       ],
@@ -128,7 +116,7 @@ export default class Penjualan extends Component {
             </div>
             <div className="card-body">
               <div className="col-lg-3">
-                <div className="card">
+                <div className="ml-2 card">
                   <form onSubmit={this.cariBarang}>
                     <div className="card-body">
                       <label>Barcode Barang:</label>
