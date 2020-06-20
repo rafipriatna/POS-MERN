@@ -1,4 +1,13 @@
+const { Op } = require("sequelize");
+
 const Penjualan = require("../Models/penjualanModel");
+const Barang = require("../Models/barangModel");
+
+// Associations
+Penjualan.belongsTo(Barang, {
+  foreignKey: "id_barang",
+  as: "BRG"
+});
 
 // Membuat data penjualan
 exports.createPenjualan = (req, res, next) => {
@@ -55,6 +64,12 @@ exports.getPenjualanByKodePenjualan = (req, res, next) => {
     where: {
       kode_penjualan: req.params.kode_penjualan,
     },
+    include: [
+      {
+        model: Barang,
+        as: "BRG"
+      },
+    ],
   })
     .then((penjualanByKode) => {
       if (penjualanByKode === null)
@@ -66,7 +81,10 @@ exports.getPenjualanByKodePenjualan = (req, res, next) => {
           return {
             id: penjualan.id,
             kode_penjualan: penjualan.kode_penjualan,
-            id_barang: penjualan.id_barang,
+            id_barang: {
+              id: penjualan.id_barang,
+              nama: penjualan.BRG.nama
+            },
             jumlah: penjualan.jumlah,
             total: penjualan.total,
             tanggal: penjualan.tanggal,
