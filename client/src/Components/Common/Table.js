@@ -27,14 +27,12 @@ export default class Table extends Component {
           {(props) => (
             <div>
               <div className="float-right">
-                {!(this.props.tanpaCari) && 
                   <SearchBar {...props.searchProps} placeholder="Cari data..." />
-                }
               </div>
               <BootstrapTable
                 classes="table-responsive"
                 {...props.baseProps}
-                pagination={!(this.props.tanpaCari) && paginationFactory()}
+                pagination={paginationFactory()}
               />
             </div>
           )}

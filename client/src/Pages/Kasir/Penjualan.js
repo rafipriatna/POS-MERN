@@ -5,7 +5,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 // Components
 import Field from "../../Components/Common/Field";
-import Table from "../../Components/Common/Table";
+import TablePenjualan from "../../Components/Common/TablePenjualan";
 
 // Function
 import { getBarangByBarcode } from "../../Functions/Admin/BarangFunction";
@@ -28,12 +28,18 @@ export default class Penjualan extends Component {
           headerStyle: () => {
             return { width: "450px" };
           },
+          editable: () => {
+            return false;
+          },
         },
         {
           dataField: "harga",
           text: "Harga",
           headerStyle: () => {
             return { width: "400px" };
+          },
+          editable: () => {
+            return false;
           },
         },
         {
@@ -48,6 +54,9 @@ export default class Penjualan extends Component {
           text: "Total",
           headerStyle: () => {
             return { width: "400px" };
+          },
+          editable: () => {
+            return false;
           },
         },
         {
@@ -69,6 +78,9 @@ export default class Penjualan extends Component {
           },
           headerStyle: () => {
             return { width: "20%" };
+          },
+          editable: () => {
+            return false;
           },
         },
       ],
@@ -116,6 +128,10 @@ export default class Penjualan extends Component {
     });
   }
 
+  editData() {
+    alert("bjir edit");
+  }
+
   render() {
     return (
       <div className="container-fluid">
@@ -152,7 +168,7 @@ export default class Penjualan extends Component {
               </div>
 
               <div className="container-fluid mt-4">
-                <Table
+                <TablePenjualan
                   data={this.state.tableData}
                   columns={this.state.tableColumn}
                   tanpaCari={true}
