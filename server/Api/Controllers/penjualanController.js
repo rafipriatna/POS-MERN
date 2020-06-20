@@ -51,25 +51,27 @@ exports.getAllPenjualan = (req, res, next) => {
 
 // Mengambil penjualan berdasarkan kode penjualan
 exports.getPenjualanByKodePenjualan = (req, res, next) => {
-  Penjualan.findOne({
+  Penjualan.findAll({
     where: {
       kode_penjualan: req.params.kode_penjualan,
     },
   })
-    .then((penjualan) => {
-      if (penjualan === null)
+    .then((penjualanByKode) => {
+      if (penjualanByKode === null)
         return res.status(404).json({
           error: "Penjualan tidak ditemukan",
         });
       const response = {
-        penjualan: {
-          id: penjualan.id,
-          kode_penjualan: penjualan.kode_penjualan,
-          id_barang: penjualan.id_barang,
-          jumlah: penjualan.jumlah,
-          total: penjualan.total,
-          tanggal: penjualan.tanggal,
-        },
+        penjualan: penjualanByKode.map((penjualan) => {
+          return {
+            id: penjualan.id,
+            kode_penjualan: penjualan.kode_penjualan,
+            id_barang: penjualan.id_barang,
+            jumlah: penjualan.jumlah,
+            total: penjualan.total,
+            tanggal: penjualan.tanggal,
+          };
+        }),
       };
       res.status(200).json(response);
     })
