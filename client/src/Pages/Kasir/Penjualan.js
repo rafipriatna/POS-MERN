@@ -3,15 +3,19 @@ import { Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
+import BootstrapTable from "react-bootstrap-table-next";
+import ToolkitProvider from "react-bootstrap-table2-toolkit";
+import cellEditFactory from "react-bootstrap-table2-editor";
+
 // Components
 import Field from "../../Components/Common/Field";
-import TablePenjualan from "../../Components/Common/TablePenjualan";
 
 // Function
 import { getBarangByBarcode } from "../../Functions/Admin/BarangFunction";
 import {
   createPenjualan,
   getPenjualanByKodePenjualan,
+  updateJumlahBarangPenjualan,
 } from "../../Functions/Kasir/PenjualanFunction";
 
 export default class Penjualan extends Component {
@@ -128,8 +132,16 @@ export default class Penjualan extends Component {
     });
   }
 
-  editData() {
-    alert("bjir edit");
+  updatePenjualanJumlah(data) {
+    let dataUpdatePenjualan = {
+      jumlah: data.newValue,
+      total: data.row.harga * data.newValue,
+    };
+    updateJumlahBarangPenjualan(dataUpdatePenjualan, data.row.id).then(
+      (res) => {
+        this.getPenjualan(data.row.kode_penjualan)
+      }
+    );
   }
 
   render() {
@@ -168,12 +180,35 @@ export default class Penjualan extends Component {
               </div>
 
               <div className="container-fluid mt-4">
-                <TablePenjualan
+                <ToolkitProvider
+                  bootstrap4
+                  keyField="id"
                   data={this.state.tableData}
                   columns={this.state.tableColumn}
-                  tanpaCari={true}
-                />
-
+                >
+                  {(props) => (
+                    <div>
+                      <BootstrapTable
+                        classes="table-responsive"
+                        {...props.baseProps}
+                        cellEdit={cellEditFactory({
+                          mode: "click",
+                          afterSaveCell: (oldValue, newValue, row, column) => {
+                            if (newValue === "" || newValue === null)
+                              return row.jumlah === 1;
+                            let data = {
+                              oldValue: oldValue,
+                              newValue: newValue,
+                              row: row,
+                              column: column,
+                            };
+                            this.updatePenjualanJumlah(data);
+                          },
+                        })}
+                      />
+                    </div>
+                  )}
+                </ToolkitProvider>
                 <div className="row">
                   <div className="col-lg-6">
                     <div className="card">

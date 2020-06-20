@@ -41,3 +41,24 @@ export const getPenjualanByKodePenjualan = (KodePenjualan) => {
       return err;
     });
 };
+
+// Update Jumlah Barang
+export const updateJumlahBarangPenjualan = (dataUpdatePenjualan, id) => {
+  const data = JSON.parse(localStorage.getItem("userAuth"));
+  if (data === null) return false;
+
+  const headers = {
+    Authorization: `Bearer ${data.token}`,
+  };
+
+  return axios
+    .patch(`/penjualan/${id}`, dataUpdatePenjualan, {
+      headers,
+    })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
