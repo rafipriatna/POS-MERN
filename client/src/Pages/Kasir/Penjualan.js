@@ -9,7 +9,10 @@ import Table from "../../Components/Common/Table";
 
 // Function
 import { getBarangByBarcode } from "../../Functions/Admin/BarangFunction";
-import { createPenjualan } from "../../Functions/Kasir/PenjualanFunction";
+import {
+  createPenjualan,
+  getPenjualanByKodePenjualan,
+} from "../../Functions/Kasir/PenjualanFunction";
 
 export default class Penjualan extends Component {
   constructor() {
@@ -20,14 +23,14 @@ export default class Penjualan extends Component {
       barcode_barang: "",
       tableColumn: [
         {
-          dataField: "nama",
+          dataField: "nama_barang",
           text: "Nama Barang",
           headerStyle: () => {
             return { width: "450px" };
           },
         },
         {
-          dataField: "harga_jual",
+          dataField: "harga",
           text: "Harga",
           headerStyle: () => {
             return { width: "400px" };
@@ -71,6 +74,7 @@ export default class Penjualan extends Component {
       ],
       tableData: [],
       redirect: false,
+      bjir: [],
     };
     this.onChange = this.onChange.bind(this);
     this.cariBarang = this.cariBarang.bind(this);
@@ -97,11 +101,18 @@ export default class Penjualan extends Component {
         jumlah: 1,
         total: total,
       };
-      console.log(dataPenjualan);
-      createPenjualan(dataPenjualan).then((result) => {
-        console.log(result);
+      createPenjualan(dataPenjualan).then(() => {
+        this.getPenjualan(kode_penjualan);
+        this.state.barcode_barang = "";
       });
-      // console.log(res.barang.id);
+    });
+  }
+
+  getPenjualan(KodePenjualan) {
+    getPenjualanByKodePenjualan(KodePenjualan).then((res) => {
+      this.setState({
+        tableData: res.penjualan,
+      });
     });
   }
 

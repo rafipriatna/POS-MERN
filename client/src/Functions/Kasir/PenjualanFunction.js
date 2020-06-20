@@ -20,3 +20,24 @@ export const createPenjualan = (dataPenjualan) => {
       return err;
     });
 };
+
+// Get By Kode Penjualan
+export const getPenjualanByKodePenjualan = (KodePenjualan) => {
+  const data = JSON.parse(localStorage.getItem("userAuth"));
+  if (data === null) return false;
+
+  const headers = {
+    Authorization: `Bearer ${data.token}`,
+  };
+
+  return axios
+    .get(`/penjualan/${KodePenjualan}`, {
+      headers,
+    })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
