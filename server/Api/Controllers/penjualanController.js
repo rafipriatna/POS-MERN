@@ -11,6 +11,7 @@ Penjualan.belongsTo(Barang, {
 
 // Membuat data penjualan
 exports.createPenjualan = (req, res, next) => {
+  // Cari satu penjualan yang kode barang & id_barangnya sesuai yg diinput
   Penjualan.findOne({
     where: {
       [Op.and]: [
@@ -25,9 +26,9 @@ exports.createPenjualan = (req, res, next) => {
       },
     ],
   }).then((penjualan) => {
+    // Jika ada penjualan dengan kode penjualan dan id barang yang sama
     if (penjualan !== null) {
-      // Jika ada penjualan dengan kode penjualan dan id barang yang sama
-      // Maka tambahkan jumlahnya
+      // Maka update jumlah barang yang dibeli
       Penjualan.update(
         {
           jumlah: penjualan.jumlah + 1,
@@ -39,9 +40,44 @@ exports.createPenjualan = (req, res, next) => {
           },
         }
       ).then((result) => {
-        res.status(200).json(result);
-      });
+        Barang.findOne({
+          where: {
+            id: req.body.id_barang,
+          },
+        })
+          .then((barang) => {
+            // Update stoknya
+            Barang.update(
+              {
+                stok: barang.stok - 1,
+              },
+              {
+                where: {
+                  id: req.body.id_barang,
+                },
+              }
+            )
+              .then(() => {
+                // result dari update penjualan
+                res.status(200).json(result);
+              })
+              .catch((err) => {
+                // Catch update barang
+                res.status(500).json({
+                  error: err,
+                });
+              });
+          })
+          .catch((err) => {
+            // Catch find one barang
+            res.status(500).json({
+              error: err,
+            });
+          });
+      })
     } else {
+      // Jika tidak ada penjualan dengan kode penjualan dan id barang yang sama
+      // Maka buat baru
       Penjualan.create({
         kode_penjualan: req.body.kode_penjualan,
         id_barang: req.body.id_barang,
@@ -50,9 +86,45 @@ exports.createPenjualan = (req, res, next) => {
         tanggal: new Date(),
       })
         .then((result) => {
-          res.status(200).json(result);
+          // Update jumlah stok barang
+          // Cari satu barang dengan id barang yang diinput
+          Barang.findOne({
+            where: {
+              id: req.body.id_barang,
+            },
+          })
+            .then((barang) => {
+              // Update stoknya
+              Barang.update(
+                {
+                  stok: barang.stok - 1,
+                },
+                {
+                  where: {
+                    id: req.body.id_barang,
+                  },
+                }
+              )
+                .then(() => {
+                  // result dari create penjualan
+                  res.status(200).json(result);
+                })
+                .catch((err) => {
+                  // Catch update barang
+                  res.status(500).json({
+                    error: err,
+                  });
+                });
+            })
+            .catch((err) => {
+              // Catch find one barang
+              res.status(500).json({
+                error: err,
+              });
+            });
         })
         .catch((err) => {
+          // Catch create penjualan
           res.status(500).json({
             error: err,
           });
@@ -136,7 +208,7 @@ exports.updateOneItemPenjualan = (req, res, next) => {
   Penjualan.update(
     {
       jumlah: req.body.jumlah,
-      total: req.body.total
+      total: req.body.total,
     },
     {
       where: {
@@ -148,7 +220,7 @@ exports.updateOneItemPenjualan = (req, res, next) => {
       res.status(200).json({
         message: "Penjualan berhasil diupdate",
       });
-      console.log(req.body)
+      console.log(req.body);
     })
     .catch((err) => {
       res.status(500).json({
