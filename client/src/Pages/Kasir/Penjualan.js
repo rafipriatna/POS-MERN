@@ -155,122 +155,120 @@ export default class Penjualan extends Component {
   render() {
     return (
       <div className="container-fluid">
-        <div>
-          <h1 className="h3 mb-2 text-gray-800">Penjualan</h1>
-          <div className="card shadow mb-4">
-            <div className="card-header py-3">
-              Kode Penjualan: {this.state.kode_penjualan}
-            </div>
-            <div className="card-body">
-              <div className="col-lg-3">
-                <div className="ml-2 card">
-                  <form onSubmit={this.cariBarang}>
-                    <div className="card-body">
-                      <label>Barcode Barang:</label>
-                      <Field
-                        type="text"
-                        name="barcode_barang"
-                        placeholder="Masukkan barcode"
-                        value={this.state.barcode_barang}
-                        onChange={this.onChange}
-                      />
-                    </div>
-                    <div className="card-footer text-right">
-                      <button
-                        type="submit"
-                        className="btn btn-primary text-right"
-                      >
-                        Tambah
-                      </button>
-                    </div>
-                  </form>
-                </div>
+        <h1 className="h3 mb-2 text-gray-800">Penjualan</h1>
+        <div className="card shadow mb-4">
+          <div className="card-header py-3">
+            Kode Penjualan: {this.state.kode_penjualan}
+          </div>
+          <div className="card-body">
+            <div className="col-lg-3">
+              <div className="ml-2 card">
+                <form onSubmit={this.cariBarang}>
+                  <div className="card-body">
+                    <label>Barcode Barang:</label>
+                    <Field
+                      type="text"
+                      name="barcode_barang"
+                      placeholder="Masukkan barcode"
+                      value={this.state.barcode_barang}
+                      onChange={this.onChange}
+                    />
+                  </div>
+                  <div className="card-footer text-right">
+                    <button
+                      type="submit"
+                      className="btn btn-primary text-right"
+                    >
+                      Tambah
+                    </button>
+                  </div>
+                </form>
               </div>
+            </div>
 
-              <div className="container-fluid mt-4">
-                <ToolkitProvider
-                  bootstrap4
-                  keyField="id"
-                  data={this.state.tableData}
-                  columns={this.state.tableColumn}
-                >
-                  {(props) => (
-                    <div>
-                      <BootstrapTable
-                        classes="table-responsive"
-                        {...props.baseProps}
-                        cellEdit={cellEditFactory({
-                          mode: "click",
-                          afterSaveCell: (oldValue, newValue, row, column) => {
-                            if (newValue === "" || newValue === null)
-                              return row.jumlah === 1;
-                            let data = {
-                              oldValue: oldValue,
-                              newValue: newValue,
-                              row: row,
-                              column: column,
-                            };
-                            this.updatePenjualanJumlah(data);
-                          },
-                        })}
-                      />
-                    </div>
-                  )}
-                </ToolkitProvider>
-                <div className="row">
-                  <div className="col-lg-6">
-                    <div className="card">
-                      <div className="card-body">
-                        <div className="row">
-                          <div className="col-lg-6">
-                            <div className="form-group">
-                              <label>Diskon (%)</label>
-                              <input type="number" className="form-control" />
-                            </div>
-                            <div className="form-group">
-                              <label>Potongan Diskon</label>
-                              <input type="number" className="form-control" />
-                            </div>
-                            <div className="form-group">
-                              <label>Sub total</label>
-                              <input type="number" className="form-control" />
-                            </div>
+            <div className="container-fluid mt-4">
+              <ToolkitProvider
+                bootstrap4
+                keyField="id"
+                data={this.state.tableData}
+                columns={this.state.tableColumn}
+              >
+                {(props) => (
+                  <div>
+                    <BootstrapTable
+                      classes="table-responsive"
+                      {...props.baseProps}
+                      cellEdit={cellEditFactory({
+                        mode: "click",
+                        afterSaveCell: (oldValue, newValue, row, column) => {
+                          if (newValue === "" || newValue === null)
+                            return row.jumlah === 1;
+                          let data = {
+                            oldValue: oldValue,
+                            newValue: newValue,
+                            row: row,
+                            column: column,
+                          };
+                          this.updatePenjualanJumlah(data);
+                        },
+                      })}
+                    />
+                  </div>
+                )}
+              </ToolkitProvider>
+              <div className="row">
+                <div className="col-lg-6">
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-lg-6">
+                          <div className="form-group">
+                            <label>Diskon (%)</label>
+                            <input type="number" className="form-control" />
                           </div>
-                          <div className="col-lg-6">
-                            <div className="form-group">
-                              <label>Bayar</label>
-                              <input type="number" className="form-control" />
-                            </div>
-                            <div className="form-group">
-                              <label>Kembalian</label>
-                              <input type="number" className="form-control" />
-                            </div>
+                          <div className="form-group">
+                            <label>Potongan Diskon</label>
+                            <input type="number" className="form-control" />
+                          </div>
+                          <div className="form-group">
+                            <label>Sub total</label>
+                            <input type="number" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-lg-6">
+                          <div className="form-group">
+                            <label>Bayar</label>
+                            <input type="number" className="form-control" />
+                          </div>
+                          <div className="form-group">
+                            <label>Kembalian</label>
+                            <input type="number" className="form-control" />
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="col-lg-6">
-                    <div className="card">
-                      <div className="card-body">
-                        <h3 className="text-center">Informasi Penting</h3>
-                        <hr />
-                        <ul>
-                          <li>
-                            Barang yang sudah dibeli, tidak dapat dikembalikan
-                            lagi.
-                          </li>
-                          <li>Kasir nggak boleh ngasih harga temen.</li>
-                        </ul>
-                      </div>
+                </div>
+                <div className="col-lg-6">
+                  <div className="card">
+                    <div className="card-body">
+                      <h3 className="text-center">Informasi Penting</h3>
+                      <hr />
+                      <ul>
+                        <li>
+                          Barang yang sudah dibeli, tidak dapat dikembalikan
+                          lagi.
+                        </li>
+                        <li>Kasir nggak boleh ngasih harga temen.</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="card-footer text-right">
-              <button className="btn btn-primary">Cetak Struk</button>
-            </div>
+          </div>
+          <div className="card-footer text-right">
+            <button className="btn btn-primary">Cetak Struk</button>
           </div>
         </div>
       </div>
