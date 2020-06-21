@@ -16,6 +16,7 @@ import {
   createPenjualan,
   getPenjualanByKodePenjualan,
   updateJumlahBarangPenjualan,
+  deletePenjualan,
 } from "../../Functions/Kasir/PenjualanFunction";
 
 export default class Penjualan extends Component {
@@ -72,7 +73,7 @@ export default class Penjualan extends Component {
                 <Button
                   color="danger"
                   className="mr-2"
-                  // onClick={(e) => this.hapusBarang(row.id)}
+                  onClick={(e) => this.hapusPenjualan(row.id)}
                 >
                   <FontAwesomeIcon icon={faTrash} fixedWidth />
                   Hapus
@@ -139,9 +140,16 @@ export default class Penjualan extends Component {
     };
     updateJumlahBarangPenjualan(dataUpdatePenjualan, data.row.id).then(
       (res) => {
-        this.getPenjualan(data.row.kode_penjualan)
+        this.getPenjualan(data.row.kode_penjualan);
       }
     );
+  }
+
+  hapusPenjualan(id) {
+    deletePenjualan(id).then((res) => {
+      const KodePenjualan = this.state.kode_penjualan;
+      this.getPenjualan(KodePenjualan);
+    });
   }
 
   render() {

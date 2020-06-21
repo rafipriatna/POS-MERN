@@ -62,3 +62,24 @@ export const updateJumlahBarangPenjualan = (dataUpdatePenjualan, id) => {
       return err;
     });
 };
+
+// Delete
+export const deletePenjualan = (id) => {
+  const data = JSON.parse(localStorage.getItem("userAuth"));
+  if (data === null) return false;
+
+  const headers = {
+    Authorization: `Bearer ${data.token}`,
+  };
+
+  return axios
+    .delete(`/penjualan/${id}`, {
+      headers,
+    })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
