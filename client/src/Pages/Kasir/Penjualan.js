@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-
+import Swal from "sweetalert2";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import cellEditFactory from "react-bootstrap-table2-editor";
@@ -107,6 +107,14 @@ export default class Penjualan extends Component {
     e.preventDefault();
     let barcode = this.state.barcode_barang;
     getBarangByBarcode(barcode).then((res) => {
+      // Cek Stok
+      if (res.barang.stok === 0)
+        return Swal.fire(
+          "Oops...",
+          `Stok barang <b>${res.barang.nama}</b> habis!`,
+          "error"
+        );
+
       // Simpan ke Penjualan
       const kode_penjualan = this.state.kode_penjualan;
       const id = res.barang.id;
