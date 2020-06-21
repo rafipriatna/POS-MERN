@@ -274,19 +274,65 @@ exports.updateOneItemPenjualan = (req, res, next) => {
 
 // Delete penjualan berdasarkan id
 exports.deleteOnePenjualan = (req, res, next) => {
-  Penjualan.destroy({
+  // Cari satu penjualan dengan id yang diinput
+  Penjualan.findOne({
     where: {
       id: req.params.id,
     },
-  })
-    .then((result) => {
-      res.status(200).json({
-        message: "Penjualan berhasil dihapus",
-      });
+  }).then((penjualan) => {
+    // Update jumlah stok barang
+    // Cari satu barang dengan id barang dari find one penjualan
+    Barang.findOne({
+      where: {
+        id: penjualan.id_barang,
+      },
     })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
+      .then((barang) => {
+        // Hitung stok barang yang harus ditambah dari jumlah penjualan
+        let stokBarang = barang.stok + penjualan.jumlah;
+
+        // Update stoknya
+        Barang.update(
+          {
+            stok: stokBarang,
+          },
+          {
+            where: {
+              id: penjualan.id_barang,
+            },
+          }
+        )
+          .then(() => {
+            // Hapus penjualannya
+            Penjualan.destroy({
+              where: {
+                id: req.params.id,
+              },
+            })
+              .then((result) => {
+                res.status(200).json({
+                  message: "Penjualan berhasil dihapus",
+                });
+              })
+              .catch((err) => {
+                // Catch hapus barang
+                res.status(500).json({
+                  error: err,
+                });
+              });
+          })
+          .catch((err) => {
+            // Catch update barang
+            res.status(500).json({
+              error: err,
+            });
+          });
+      })
+      .catch((err) => {
+        // Catch find one barang
+        res.status(500).json({
+          error: err,
+        });
       });
-    });
+  });
 };
