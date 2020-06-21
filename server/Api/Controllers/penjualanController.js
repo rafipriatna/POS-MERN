@@ -74,7 +74,7 @@ exports.createPenjualan = (req, res, next) => {
               error: err,
             });
           });
-      })
+      });
     } else {
       // Jika tidak ada penjualan dengan kode penjualan dan id barang yang sama
       // Maka buat baru
@@ -205,28 +205,71 @@ exports.getPenjualanByKodePenjualan = (req, res, next) => {
 
 // Update jumlah penjualan per item
 exports.updateOneItemPenjualan = (req, res, next) => {
-  Penjualan.update(
-    {
-      jumlah: req.body.jumlah,
-      total: req.body.total,
+  // Cari satu penjualan dengan id yang diinput
+  Penjualan.findOne({
+    where: {
+      id: req.params.id,
     },
-    {
+  }).then((penjualan) => {
+    // Update jumlah stok barang
+    // Cari satu barang dengan id barang dari find one penjualan
+    Barang.findOne({
       where: {
-        id: req.params.id,
+        id: penjualan.id_barang,
       },
-    }
-  )
-    .then((result) => {
-      res.status(200).json({
-        message: "Penjualan berhasil diupdate",
-      });
-      console.log(req.body);
     })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
+      .then((barang) => {
+        // Hitung stok barang yang harus ditambah dari jumlah penjualan
+        let stokBarang = barang.stok + penjualan.jumlah - req.body.jumlah;
+
+        // Update stoknya
+        Barang.update(
+          {
+            stok: stokBarang,
+          },
+          {
+            where: {
+              id: penjualan.id_barang,
+            },
+          }
+        )
+          .then(() => {
+            // Update penjualannya
+            Penjualan.update(
+              {
+                jumlah: req.body.jumlah,
+                total: req.body.total,
+              },
+              {
+                where: {
+                  id: req.params.id,
+                },
+              }
+            )
+              .then((result) => {
+                res.status(200).json(result);
+              })
+              .catch((err) => {
+                // Catch update penjualan
+                res.status(500).json({
+                  error: err,
+                });
+              });
+          })
+          .catch((err) => {
+            // Catch update barang
+            res.status(500).json({
+              error: err,
+            });
+          });
+      })
+      .catch((err) => {
+        // Catch find one barang
+        res.status(500).json({
+          error: err,
+        });
       });
-    });
+  });
 };
 
 // Delete penjualan berdasarkan id
