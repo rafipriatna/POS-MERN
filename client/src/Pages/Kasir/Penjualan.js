@@ -91,10 +91,17 @@ export default class Penjualan extends Component {
       ],
       tableData: [],
       redirect: false,
-      bjir: [],
+      subTotal: 0,
+      potonganDiskon: 0,
+      grandTotal: 0,
+      bayar: 0,
+      kembalian: 0,
+      bayaranKurang: true,
     };
     this.onChange = this.onChange.bind(this);
     this.cariBarang = this.cariBarang.bind(this);
+    this.hitungPotonganDiskon = this.hitungPotonganDiskon.bind(this);
+    this.hitungKembalian = this.hitungKembalian.bind(this);
   }
 
   onChange(e) {
@@ -113,7 +120,11 @@ export default class Penjualan extends Component {
           "Oops...",
           `Stok barang <b>${res.barang.nama}</b> habis!`,
           "error"
-        );
+        ).then(() => {
+          this.setState({
+            barcode_barang: "",
+          });
+        });
 
       // Simpan ke Penjualan
       const kode_penjualan = this.state.kode_penjualan;
@@ -128,7 +139,9 @@ export default class Penjualan extends Component {
       };
       createPenjualan(dataPenjualan).then(() => {
         this.getPenjualan(kode_penjualan);
-        this.state.barcode_barang = "";
+        this.setState({
+          barcode_barang: "",
+        });
       });
     });
   }
@@ -138,6 +151,7 @@ export default class Penjualan extends Component {
       this.setState({
         tableData: res.penjualan,
       });
+      this.hitungHargaTotal(res.penjualan);
     });
   }
 
@@ -158,6 +172,56 @@ export default class Penjualan extends Component {
       const KodePenjualan = this.state.kode_penjualan;
       this.getPenjualan(KodePenjualan);
     });
+  }
+
+  // Fungsi perhitungan
+  hitungHargaTotal(data) {
+    let total = 0;
+    let grandTotal = 0;
+    let potonganDiskon = this.state.potonganDiskon;
+    for (let i = 0; i < data.length; i++) {
+      total += data[i].total;
+      grandTotal += total - potonganDiskon;
+      this.setState({
+        subTotal: total,
+        grandTotal: grandTotal,
+      });
+    }
+  }
+
+  hitungPotonganDiskon(e) {
+    const value = e.target.value;
+    let subTotal = this.state.subTotal;
+    let hitung;
+    if (value === null || value === "")
+      return this.setState({
+        potonganDiskon: 0,
+        grandTotal: subTotal,
+      });
+
+    hitung = (value / 100) * subTotal;
+    this.setState({
+      potonganDiskon: hitung,
+      grandTotal: subTotal - hitung,
+    });
+  }
+
+  hitungKembalian(e) {
+    const value = e.target.value;
+    let grandTotal = this.state.grandTotal;
+    let hitung = value - grandTotal;
+
+    if (hitung >= 0) {
+      this.setState({
+        kembalian: hitung,
+        bayaranKurang: false,
+      });
+    } else {
+      this.setState({
+        kembalian: 0,
+        bayaranKurang: true,
+      });
+    }
   }
 
   render() {
@@ -231,26 +295,58 @@ export default class Penjualan extends Component {
                       <div className="row">
                         <div className="col-lg-6">
                           <div className="form-group">
+                            <div className="form-group">
+                              <label>Sub total</label>
+                              <input
+                                type="number"
+                                className="form-control"
+                                value={this.state.subTotal}
+                                readOnly
+                              />
+                            </div>
                             <label>Diskon (%)</label>
-                            <input type="number" className="form-control" />
+                            <input
+                              type="number"
+                              className="form-control"
+                              onChange={this.hitungPotonganDiskon}
+                            />
                           </div>
                           <div className="form-group">
                             <label>Potongan Diskon</label>
-                            <input type="number" className="form-control" />
-                          </div>
-                          <div className="form-group">
-                            <label>Sub total</label>
-                            <input type="number" className="form-control" />
+                            <input
+                              type="number"
+                              className="form-control"
+                              value={this.state.potonganDiskon}
+                              readOnly
+                            />
                           </div>
                         </div>
                         <div className="col-lg-6">
                           <div className="form-group">
+                            <label>Grand Total</label>
+                            <input
+                              type="number"
+                              className="form-control"
+                              value={this.state.grandTotal}
+                              readOnly
+                            />
+                          </div>
+                          <div className="form-group">
                             <label>Bayar</label>
-                            <input type="number" className="form-control" />
+                            <input
+                              type="number"
+                              className="form-control"
+                              onChange={this.hitungKembalian}
+                            />
                           </div>
                           <div className="form-group">
                             <label>Kembalian</label>
-                            <input type="number" className="form-control" />
+                            <input
+                              type="number"
+                              className="form-control"
+                              value={this.state.kembalian}
+                              readOnly
+                            />
                           </div>
                         </div>
                       </div>
