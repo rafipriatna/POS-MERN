@@ -19,8 +19,8 @@ export default class Masuk extends Component {
 
     async componentDidMount() {
         document.body.classList.add('bg-gradient-primary')
-        const checToken = await checkToken()
-        if(checToken === true) this.props.history.push("/")
+        const isAuthenticated = await checkToken()
+        if(isAuthenticated) this.props.history.push("/")
     }
 
     onChange(e){
