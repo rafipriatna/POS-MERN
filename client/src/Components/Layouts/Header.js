@@ -101,14 +101,16 @@ export default class Header extends Component {
                     <span className="mr-2 d-none d-lg-inline text-gray-600 small">
                       {this.state.dataUser.nama}
                     </span>
-                    <img
-                      className="img-profile rounded-circle"
-                      alt=""
-                      src={
-                        "http://localhost:5000/images/profile/" +
-                        this.state.dataUser.foto
-                      }
-                    />
+                    {this.state.dataUser.foto && (
+                      <img
+                        className="img-profile rounded-circle"
+                        alt=""
+                        src={
+                          "http://localhost:5000/images/profile/" +
+                          this.state.dataUser.foto
+                        }
+                      />
+                    )}
                   </a>
                   <div
                     className="dropdown-menu dropdown-menu-right shadow animated--grow-in"
