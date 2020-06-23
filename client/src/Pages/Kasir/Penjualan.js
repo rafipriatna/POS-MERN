@@ -181,6 +181,13 @@ export default class Penjualan extends Component {
     let total = 0;
     let grandTotal = 0;
     let potonganDiskon = this.state.potonganDiskon;
+    if (data.length === 0) {
+      this.setState({
+        subTotal: 0,
+        grandTotal: 0,
+      });
+    }
+
     for (let i = 0; i < data.length; i++) {
       total += data[i].total;
       grandTotal += total - potonganDiskon;
