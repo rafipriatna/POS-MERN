@@ -1,13 +1,13 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
 // Middleware
-const checkAuth = require('../Middleware/checkAuth')
+const checkAuth = require("../Middleware/checkAuth");
 
 // Controllers
-const checkTokenController = require('../Controllers/checkTokenController')
+const checkTokenController = require("../Controllers/checkTokenController");
 
 // Routes
-router.get('/:id', checkAuth.userAuth, checkTokenController)
+router.get("/:id", checkAuth.userAuth, checkTokenController);
 
-module.exports = router
+module.exports = router;
