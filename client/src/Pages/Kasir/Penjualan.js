@@ -18,6 +18,7 @@ import {
   updateJumlahBarangPenjualan,
   deletePenjualan,
 } from "../../Functions/Kasir/PenjualanFunction";
+import { createTransaksi } from "../../Functions/Kasir/TransaksiFunction";
 
 export default class Penjualan extends Component {
   constructor() {
@@ -97,6 +98,7 @@ export default class Penjualan extends Component {
       bayar: 0,
       kembalian: 0,
       bayaranKurang: true,
+      tombolCetakStruk: false,
     };
     this.onChange = this.onChange.bind(this);
     this.cariBarang = this.cariBarang.bind(this);
@@ -215,14 +217,19 @@ export default class Penjualan extends Component {
       this.setState({
         kembalian: hitung,
         bayaranKurang: false,
+        tombolCetakStruk: true,
       });
     } else {
       this.setState({
         kembalian: 0,
         bayaranKurang: true,
+        tombolCetakStruk: false,
       });
     }
   }
+
+  // Transaksi
+  kirimTransaksi(e) {}
 
   render() {
     return (
@@ -257,7 +264,6 @@ export default class Penjualan extends Component {
                 </form>
               </div>
             </div>
-
             <div className="container-fluid mt-4">
               <ToolkitProvider
                 bootstrap4
@@ -372,7 +378,12 @@ export default class Penjualan extends Component {
             </div>
           </div>
           <div className="card-footer text-right">
-            <button className="btn btn-primary">Cetak Struk</button>
+            <button
+              className="btn btn-primary"
+              disabled={!this.state.tombolCetakStruk}
+            >
+              Cetak Struk
+            </button>
           </div>
         </div>
       </div>
