@@ -93,6 +93,7 @@ export default class Penjualan extends Component {
       tableData: [],
       redirect: false,
       subTotal: 0,
+      diskon: 0,
       potonganDiskon: 0,
       grandTotal: 0,
       bayar: 0,
@@ -104,6 +105,7 @@ export default class Penjualan extends Component {
     this.cariBarang = this.cariBarang.bind(this);
     this.hitungPotonganDiskon = this.hitungPotonganDiskon.bind(this);
     this.hitungKembalian = this.hitungKembalian.bind(this);
+    this.kirimTransaksi = this.kirimTransaksi.bind(this);
   }
 
   onChange(e) {
@@ -204,12 +206,14 @@ export default class Penjualan extends Component {
     let hitung;
     if (value === null || value === "")
       return this.setState({
+        diskon: 0,
         potonganDiskon: 0,
         grandTotal: subTotal,
       });
 
     hitung = (value / 100) * subTotal;
     this.setState({
+      diskon: value,
       potonganDiskon: hitung,
       grandTotal: subTotal - hitung,
     });
@@ -222,12 +226,14 @@ export default class Penjualan extends Component {
 
     if (hitung >= 0) {
       this.setState({
+        bayar: value,
         kembalian: hitung,
         bayaranKurang: false,
         tombolCetakStruk: true,
       });
     } else {
       this.setState({
+        bayar: 0,
         kembalian: 0,
         bayaranKurang: true,
         tombolCetakStruk: false,
@@ -236,7 +242,31 @@ export default class Penjualan extends Component {
   }
 
   // Transaksi
-  kirimTransaksi(e) {}
+  kirimTransaksi(e) {
+    e.preventDefault();
+    const user = JSON.parse(localStorage.getItem("userAuth"));
+    const dataTransaksi = {
+      kode_penjualan: this.state.kode_penjualan,
+      sub_total: this.state.subTotal,
+      diskon: this.state.diskon,
+      potongan_diskon: this.state.potonganDiskon,
+      grand_total: this.state.grandTotal,
+      bayar: this.state.bayar,
+      kembalian: this.state.kembalian,
+      id_user: user.id,
+    };
+    createTransaksi(dataTransaksi).then(() => {
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil",
+        text: `Transaksi ${this.state.kode_penjualan} berhasil disimpan`,
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        this.props.history.push("/penjualan");
+      });
+    });
+  }
 
   render() {
     return (
@@ -388,6 +418,7 @@ export default class Penjualan extends Component {
             <button
               className="btn btn-primary"
               disabled={!this.state.tombolCetakStruk}
+              onClick={this.kirimTransaksi}
             >
               Cetak Struk
             </button>
