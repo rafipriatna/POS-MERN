@@ -11,6 +11,7 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import Field from "../../Components/Common/Field";
 
 // Function
+import { checkToken } from "../../Functions/AuthFunction";
 import { getBarangByBarcode } from "../../Functions/Admin/BarangFunction";
 import {
   createPenjualan,
@@ -92,6 +93,7 @@ export default class Penjualan extends Component {
       ],
       tableData: [],
       redirect: false,
+      user: [],
       jumlah: 1,
       subTotal: 0,
       diskon: 0,
@@ -116,6 +118,21 @@ export default class Penjualan extends Component {
     });
   }
 
+  // Cek User
+  async componentDidMount() {
+    const check = await checkToken();
+    if (check) {
+      const data = JSON.parse(JSON.stringify(check));
+      this.setState({
+        user: data,
+      });
+    } else {
+      localStorage.clear("userAuth");
+      this.setState({ login: false });
+    }
+  }
+
+  // Barang
   cariBarang(e) {
     e.preventDefault();
     let barcode = this.state.barcode_barang;
@@ -274,7 +291,7 @@ export default class Penjualan extends Component {
   // Transaksi
   kirimTransaksi(e) {
     e.preventDefault();
-    const user = JSON.parse(localStorage.getItem("userAuth"));
+    const user = this.state.user;
     const dataTransaksi = {
       kode_penjualan: this.state.kode_penjualan,
       sub_total: this.state.subTotal,
@@ -307,40 +324,65 @@ export default class Penjualan extends Component {
             Kode Penjualan: {this.state.kode_penjualan}
           </div>
           <div className="card-body">
-            <div className="col-lg-3">
-              <div className="ml-2 card">
-                <form onSubmit={this.cariBarang}>
+            <div className="row">
+              <div className="col-lg-3">
+                <div className="card">
+                  <div className="card-header">Informasi</div>
                   <div className="card-body">
-                    <label>Barcode Barang:</label>
-                    <Field
-                      type="text"
-                      name="barcode_barang"
-                      placeholder="Masukkan barcode"
-                      value={this.state.barcode_barang}
-                      onChange={this.onChange}
-                    />
+                    <label>
+                      Tanggal: <br />
+                      {new Date().toISOString().split("T")[0]}
+                    </label>
+                    <br />
+                    <label>
+                      Nama: <br />
+                      {this.state.user.nama}
+                    </label>
+                    <br />
+                    <label>
+                      Jabatan: <br />
+                      {this.state.user.level === 0 ? "Admin" : "Kasir"}
+                    </label>
+                  </div>
+                </div>
+              </div>
 
-                    <label>Jumlah:</label>
-                    <Field
-                      type="number"
-                      name="jumlah"
-                      placeholder="Qty Barang"
-                      value={this.state.jumlah}
-                      onChange={this.onChange}
-                    />
-                  </div>
-                  <div className="card-footer text-right">
-                    <button
-                      type="submit"
-                      className="btn btn-primary text-right"
-                    >
-                      Tambah
-                    </button>
-                  </div>
-                </form>
+              <div className="col-lg-3">
+                <div className="card">
+                  <form onSubmit={this.cariBarang}>
+                    <div className="card-body">
+                      <label>Barcode Barang:</label>
+                      <Field
+                        type="text"
+                        name="barcode_barang"
+                        placeholder="Masukkan barcode"
+                        value={this.state.barcode_barang}
+                        onChange={this.onChange}
+                      />
+
+                      <label>Jumlah:</label>
+                      <Field
+                        type="number"
+                        name="jumlah"
+                        placeholder="Qty Barang"
+                        value={this.state.jumlah}
+                        onChange={this.onChange}
+                      />
+                    </div>
+                    <div className="card-footer text-right">
+                      <button
+                        type="submit"
+                        className="btn btn-primary text-right"
+                      >
+                        Tambah
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
-            <div className="container-fluid mt-4">
+
+            <div className="mt-4">
               <ToolkitProvider
                 bootstrap4
                 keyField="id"
