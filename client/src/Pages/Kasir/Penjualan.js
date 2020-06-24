@@ -162,7 +162,7 @@ export default class Penjualan extends Component {
       // Simpan ke Penjualan
       const kode_penjualan = this.state.kode_penjualan;
       const id = res.barang.id;
-      const total = res.barang.harga_jual;
+      const total = res.barang.harga_jual * jumlah;
 
       let dataPenjualan = {
         kode_penjualan: kode_penjualan,
@@ -174,6 +174,7 @@ export default class Penjualan extends Component {
         this.getPenjualan(kode_penjualan);
         this.setState({
           barcode_barang: "",
+          jumlah: 1,
         });
       });
     });
