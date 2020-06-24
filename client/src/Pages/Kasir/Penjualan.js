@@ -121,6 +121,20 @@ export default class Penjualan extends Component {
     let barcode = this.state.barcode_barang;
     let jumlah = this.state.jumlah;
     getBarangByBarcode(barcode).then((res) => {
+      // Jika barang tidak ditemukan
+      if (!res.barang)
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `Barang dengan barcode ${barcode} tidak ditemukan!`,
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          this.setState({
+            barcode_barang: "",
+          });
+        });
+
       // Cek Stok
       if (res.barang.stok === 0)
         return Swal.fire({
