@@ -92,6 +92,7 @@ export default class Penjualan extends Component {
       ],
       tableData: [],
       redirect: false,
+      jumlah: 1,
       subTotal: 0,
       diskon: 0,
       potonganDiskon: 0,
@@ -110,24 +111,38 @@ export default class Penjualan extends Component {
 
   onChange(e) {
     this.setState({
-      [e.target.name]: e.target.value,
+      [e.target.name]:
+        e.target.type === "number" ? parseInt(e.target.value) : e.target.value,
     });
   }
 
   cariBarang(e) {
     e.preventDefault();
     let barcode = this.state.barcode_barang;
+    let jumlah = this.state.jumlah;
     getBarangByBarcode(barcode).then((res) => {
       // Cek Stok
       if (res.barang.stok === 0)
-        return Swal.fire(
-          "Oops...",
-          `Stok barang <b>${res.barang.nama}</b> habis!`,
-          "error"
-        ).then(() => {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `Stok barang ${res.barang.nama} habis!`,
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
           this.setState({
             barcode_barang: "",
           });
+        });
+
+      // Cek qty barang
+      if (jumlah === 0 || jumlah === null)
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Qty tidak boleh kosong atau nol (0)!",
+          showConfirmButton: false,
+          timer: 1500,
         });
 
       // Simpan ke Penjualan
@@ -138,7 +153,7 @@ export default class Penjualan extends Component {
       let dataPenjualan = {
         kode_penjualan: kode_penjualan,
         id_barang: id,
-        jumlah: 1,
+        jumlah: jumlah,
         total: total,
       };
       createPenjualan(dataPenjualan).then(() => {
@@ -287,6 +302,15 @@ export default class Penjualan extends Component {
                       name="barcode_barang"
                       placeholder="Masukkan barcode"
                       value={this.state.barcode_barang}
+                      onChange={this.onChange}
+                    />
+
+                    <label>Jumlah:</label>
+                    <Field
+                      type="number"
+                      name="jumlah"
+                      placeholder="Qty Barang"
+                      value={this.state.jumlah}
                       onChange={this.onChange}
                     />
                   </div>
