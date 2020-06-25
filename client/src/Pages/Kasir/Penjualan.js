@@ -255,6 +255,7 @@ export default class Penjualan extends Component {
     if (data.length === 0) {
       this.setState({
         subTotal: 0,
+        potonganDiskon: 0,
         grandTotal: 0,
       });
     }
