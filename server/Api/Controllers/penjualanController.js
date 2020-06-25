@@ -97,7 +97,7 @@ exports.createPenjualan = (req, res, next) => {
               // Update stoknya
               Barang.update(
                 {
-                  stok: barang.stok - 1,
+                  stok: barang.stok - req.body.jumlah,
                 },
                 {
                   where: {
