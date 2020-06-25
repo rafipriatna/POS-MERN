@@ -257,6 +257,7 @@ export default class Penjualan extends Component {
         subTotal: 0,
         potonganDiskon: 0,
         grandTotal: 0,
+        tombolCetakStruk: false,
       });
     }
 
@@ -293,8 +294,9 @@ export default class Penjualan extends Component {
     const value = data.value;
     let grandTotal = this.state.grandTotal;
     let hitung = value - grandTotal;
+    let tableData = this.state.tableData;
 
-    if (hitung >= 0) {
+    if (hitung >= 0 && tableData.length > 0) {
       this.setState({
         bayar: value,
         kembalian: hitung,
