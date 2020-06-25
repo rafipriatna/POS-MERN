@@ -320,29 +320,29 @@ export default class Penjualan extends Component {
       <div className="container-fluid">
         <h1 className="h3 mb-2 text-gray-800">Penjualan</h1>
         <div className="card shadow mb-4">
-          <div className="card-header py-3">
-            Kode Penjualan: {this.state.kode_penjualan}
-          </div>
           <div className="card-body">
             <div className="row">
               <div className="col-lg-3">
                 <div className="card">
-                  <div className="card-header">Informasi</div>
+                  <div className="card-header">
+                    <h4>Informasi</h4>
+                  </div>
                   <div className="card-body">
-                    <label>
-                      Tanggal: <br />
-                      {new Date().toISOString().split("T")[0]}
-                    </label>
-                    <br />
-                    <label>
-                      Nama: <br />
-                      {this.state.user.nama}
-                    </label>
-                    <br />
-                    <label>
-                      Jabatan: <br />
-                      {this.state.user.level === 0 ? "Admin" : "Kasir"}
-                    </label>
+                    <label>Tanggal:</label>
+                    <Field
+                      type="date"
+                      name="tanggal"
+                      placeholder="Masukkan barcode"
+                      value={new Date().toISOString().split("T")[0]}
+                      readOnly
+                    />
+                    <label>Kode Penjualan:</label>
+                    <Field
+                      type="number"
+                      name="kode_penjualan"
+                      value={this.state.kode_penjualan}
+                      readOnly
+                    />
                   </div>
                 </div>
               </div>
@@ -378,6 +378,13 @@ export default class Penjualan extends Component {
                       </button>
                     </div>
                   </form>
+                </div>
+              </div>
+              <div className="col-lg">
+                <div className="card h-100">
+                  <div className="card-body align-items-center d-flex justify-content-center">
+                    <h1>{this.state.grandTotal}</h1>
+                  </div>
                 </div>
               </div>
             </div>
