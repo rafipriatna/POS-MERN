@@ -43,6 +43,16 @@ export default class Penjualan extends Component {
         {
           dataField: "harga",
           text: "Harga",
+          formatter: (rowContent, row) => {
+            return (
+              <CurrencyFormat
+                value={rowContent}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"Rp. "}
+              />
+            );
+          },
           headerStyle: () => {
             return { width: "400px" };
           },
@@ -60,6 +70,16 @@ export default class Penjualan extends Component {
         {
           dataField: "total",
           text: "Total",
+          formatter: (rowContent, row) => {
+            return (
+              <CurrencyFormat
+                value={rowContent}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"Rp. "}
+              />
+            );
+          },
           headerStyle: () => {
             return { width: "400px" };
           },
