@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import cellEditFactory from "react-bootstrap-table2-editor";
+import CurrencyFormat from "react-currency-format";
 
 // Components
 import Field from "../../Components/Common/Field";
@@ -230,6 +231,7 @@ export default class Penjualan extends Component {
     let total = 0;
     let grandTotal = 0;
     let potonganDiskon = this.state.potonganDiskon;
+
     if (data.length === 0) {
       this.setState({
         subTotal: 0,
@@ -239,7 +241,7 @@ export default class Penjualan extends Component {
 
     for (let i = 0; i < data.length; i++) {
       total += data[i].total;
-      grandTotal += total - potonganDiskon;
+      grandTotal = total - potonganDiskon;
       this.setState({
         subTotal: total,
         grandTotal: grandTotal,
@@ -266,8 +268,8 @@ export default class Penjualan extends Component {
     });
   }
 
-  hitungKembalian(e) {
-    const value = e.target.value;
+  hitungKembalian(data) {
+    const value = data.value;
     let grandTotal = this.state.grandTotal;
     let hitung = value - grandTotal;
 
@@ -383,7 +385,14 @@ export default class Penjualan extends Component {
               <div className="col-lg">
                 <div className="card h-100">
                   <div className="card-body align-items-center d-flex justify-content-center">
-                    <h1>{this.state.grandTotal}</h1>
+                    <h1>
+                      <CurrencyFormat
+                        value={this.state.grandTotal}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        prefix={"Rp. "}
+                      />
+                    </h1>
                   </div>
                 </div>
               </div>
@@ -428,10 +437,12 @@ export default class Penjualan extends Component {
                           <div className="form-group">
                             <div className="form-group">
                               <label>Sub total</label>
-                              <input
-                                type="number"
-                                className="form-control"
+                              <CurrencyFormat
                                 value={this.state.subTotal}
+                                displayType={"text"}
+                                thousandSeparator={true}
+                                prefix={"Rp. "}
+                                className="form-control"
                                 readOnly
                               />
                             </div>
@@ -444,10 +455,12 @@ export default class Penjualan extends Component {
                           </div>
                           <div className="form-group">
                             <label>Potongan Diskon</label>
-                            <input
-                              type="number"
-                              className="form-control"
+                            <CurrencyFormat
                               value={this.state.potonganDiskon}
+                              displayType={"text"}
+                              thousandSeparator={true}
+                              prefix={"Rp. "}
+                              className="form-control"
                               readOnly
                             />
                           </div>
@@ -455,27 +468,31 @@ export default class Penjualan extends Component {
                         <div className="col-lg-6">
                           <div className="form-group">
                             <label>Grand Total</label>
-                            <input
-                              type="number"
-                              className="form-control"
+                            <CurrencyFormat
                               value={this.state.grandTotal}
+                              displayType={"text"}
+                              thousandSeparator={true}
+                              prefix={"Rp. "}
+                              className="form-control"
                               readOnly
                             />
                           </div>
                           <div className="form-group">
                             <label>Bayar</label>
-                            <input
-                              type="number"
+                            <CurrencyFormat
+                              thousandSeparator={true}
+                              prefix={"Rp. "}
                               className="form-control"
-                              onChange={this.hitungKembalian}
+                              onValueChange={this.hitungKembalian}
                             />
                           </div>
                           <div className="form-group">
                             <label>Kembalian</label>
-                            <input
-                              type="number"
-                              className="form-control"
+                            <CurrencyFormat
                               value={this.state.kembalian}
+                              thousandSeparator={true}
+                              prefix={"Rp. "}
+                              className="form-control"
                               readOnly
                             />
                           </div>
